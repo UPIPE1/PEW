@@ -63,7 +63,6 @@ ul { padding: 0; list-style: none; }
   transform: translateY(0) scale(1);
 }
 
-/* Staggered word spans generated via JS */
 .word-wrap {
   display: inline-block;
   overflow: hidden;
@@ -82,7 +81,6 @@ ul { padding: 0; list-style: none; }
   opacity: 1;
 }
 
-/* Glowing text highlight */
 .glow-highlight {
   background: linear-gradient(135deg, var(--blue) 0%, var(--cyan) 50%, #60A5FA 100%);
   background-size: 200% auto;
@@ -97,7 +95,7 @@ ul { padding: 0; list-style: none; }
   100% { background-position: 0% 50%; }
 }
 
-/* ---------- Buttons with Dynamic Glow ---------- */
+/* ---------- Buttons ---------- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
   min-height: 48px; padding: 0 22px;
@@ -141,7 +139,7 @@ ul { padding: 0; list-style: none; }
 .brand img { height: 30px; width: auto; }
 .brand-name { font: 700 19px/1 var(--font-display); letter-spacing: -.01em; }
 
-.nav { display: flex; gap: 6px; }
+.nav { display: flex; gap: 6px; align-items: center; }
 .nav a {
   padding: 10px 14px; border-radius: 999px;
   font-weight: 500; font-size: 15.5px; color: rgba(255, 255, 255, .82);
@@ -149,6 +147,17 @@ ul { padding: 0; list-style: none; }
 }
 .nav a:hover { color: var(--cyan); transform: translateY(-2px); }
 .nav a.active { color: var(--white); background: rgba(255, 255, 255, .15); box-shadow: inset 0 0 10px rgba(255,255,255,0.05); }
+
+.pes-nav-btn {
+  background: linear-gradient(135deg, var(--blue), var(--cyan));
+  color: var(--white) !important;
+  font-weight: 600 !important;
+  padding: 8px 16px !important;
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+}
+.pes-nav-btn:hover {
+  filter: brightness(1.15);
+}
 
 .header-actions { display: flex; align-items: center; gap: 10px; }
 .menu-btn {
@@ -488,7 +497,6 @@ h1 {
   .reveal-text, .word-inner { opacity: 1; transform: none; }
 }
 
-/* ---------- SEO content, FAQ, helpers ---------- */
 .sprite { position: absolute; width: 0; height: 0; }
 .hindi { font-size: 17px; }
 .site-footer p[lang="hi"] { margin-top: 6px; }
