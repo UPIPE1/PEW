@@ -9,32 +9,28 @@
 
   /* ---------- Advanced Dynamic Split-Text Animation ---------- */
   function initAdvancedAnimations() {
-    // 1. Split headline into words for cinematic staggering
     var headlines = $$(".split-headline");
     headlines.forEach(function (h1) {
       var html = h1.innerHTML;
-      // Wrap words or HTML tokens safely
       var parts = html.split(/(<span[^>]*>.*?<\/span>|\s+)/);
       h1.innerHTML = parts.map(function (part) {
         if (!part.trim()) return part;
-        if (part.indexOf("<span") === 0) return part; // Keep styled spans intact
+        if (part.indexOf("<span") === 0) return part;
         return '<span class="word-wrap"><span class="word-inner">' + part + '</span></span>';
       }).join("");
     });
 
-    // 2. Intersection Observer for Reveal elements & Split Text
     var revealEls = $$(".reveal-text, .split-headline");
     if ("IntersectionObserver" in window) {
       var observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
             entry.target.classList.add("active");
-            // If it's a split headline, trigger word-inners sequentially
             var wordInners = entry.target.querySelectorAll(".word-inner");
             wordInners.forEach(function (wi, idx) {
               setTimeout(function () {
                 wi.classList.add("animate");
-              }, idx * 45); // Stagger delay per word
+              }, idx * 45);
             });
             observer.unobserve(entry.target);
           }
