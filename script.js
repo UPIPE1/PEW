@@ -1,4 +1,4 @@
-/* Poonam Electronics: page behaviour & animations */
+/* Poonam Electronics: page behaviour & cinematic animations */
 (function () {
   "use strict";
   var S = window.SITE;
@@ -7,24 +7,46 @@
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
 
-  /* ---------- Scroll Animations ---------- */
-  function initScrollAnimations() {
-    var animElements = $$(".animated-text");
-    if (!animElements.length) return;
+  /* ---------- Advanced Dynamic Split-Text Animation ---------- */
+  function initAdvancedAnimations() {
+    // 1. Split headline into words for cinematic staggering
+    var headlines = $$(".split-headline");
+    headlines.forEach(function (h1) {
+      var html = h1.innerHTML;
+      // Wrap words or HTML tokens safely
+      var parts = html.split(/(<span[^>]*>.*?<\/span>|\s+)/);
+      h1.innerHTML = parts.map(function (part) {
+        if (!part.trim()) return part;
+        if (part.indexOf("<span") === 0) return part; // Keep styled spans intact
+        return '<span class="word-wrap"><span class="word-inner">' + part + '</span></span>';
+      }).join("");
+    });
 
+    // 2. Intersection Observer for Reveal elements & Split Text
+    var revealEls = $$(".reveal-text, .split-headline");
     if ("IntersectionObserver" in window) {
       var observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
-            entry.target.classList.add("in-view");
+            entry.target.classList.add("active");
+            // If it's a split headline, trigger word-inners sequentially
+            var wordInners = entry.target.querySelectorAll(".word-inner");
+            wordInners.forEach(function (wi, idx) {
+              setTimeout(function () {
+                wi.classList.add("animate");
+              }, idx * 45); // Stagger delay per word
+            });
             observer.unobserve(entry.target);
           }
         });
-      }, { rootMargin: "0px 0px -50px 0px", threshold: 0.1 });
+      }, { rootMargin: "0px 0px -60px 0px", threshold: 0.15 });
 
-      animElements.forEach(function (el) { observer.observe(el); });
+      revealEls.forEach(function (el) { observer.observe(el); });
     } else {
-      animElements.forEach(function (el) { el.classList.add("in-view"); });
+      revealEls.forEach(function (el) {
+        el.classList.add("active");
+        el.querySelectorAll(".word-inner").forEach(function (wi) { wi.classList.add("animate"); });
+      });
     }
   }
 
@@ -312,6 +334,6 @@
     Object.keys(links).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
   }
 
-  // Initialize text scroll animations
-  initScrollAnimations();
+  // Initialize heavy cinematic animations
+  initAdvancedAnimations();
 })();
