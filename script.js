@@ -1,4 +1,4 @@
-/* Poonam Electronics: page behaviour & hyper-advanced lively animations */
+/* Poonam Electronics: Hyper-Theoretical Fluid Animation Engine */
 (function () {
   "use strict";
   var S = window.SITE;
@@ -7,14 +7,15 @@
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
 
-  /* ---------- 1. Interactive Canvas Particle Constellation ---------- */
-  function initParticleCanvas() {
-    var canvas = $("#particleCanvas");
+  /* ---------- 1. Interactive Fluid Sine-Wave Matrix Canvas ---------- */
+  function initFluidCanvas() {
+    var canvas = $("#fluidCanvas");
     if (!canvas) return;
     var ctx = canvas.getContext("2d");
     var width, height;
-    var particles = [];
-    var numParticles = 40;
+    var step = 35;
+    var time = 0;
+    var mouse = { x: -1000, y: -1000, tx: -1000, ty: -1000 };
 
     function resize() {
       width = canvas.width = canvas.parentElement.offsetWidth;
@@ -23,58 +24,55 @@
     window.addEventListener("resize", resize);
     resize();
 
-    function Particle() {
-      this.x = Math.random() * width;
-      this.y = Math.random() * height;
-      this.vx = (Math.random() - 0.5) * 0.8;
-      this.vy = (Math.random() - 0.5) * 0.8;
-      this.radius = Math.random() * 2 + 1;
-    }
+    window.addEventListener("mousemove", function (e) {
+      var rect = canvas.getBoundingClientRect();
+      mouse.tx = e.clientX - rect.left;
+      mouse.ty = e.clientY - rect.top;
+    });
 
-    Particle.prototype.update = function () {
-      this.x += this.vx;
-      this.y += this.vy;
-      if (this.x < 0 || this.x > width) this.vx = -this.vx;
-      if (this.y < 0 || this.y > height) this.vy = -this.vy;
-    };
+    function renderFluid() {
+      mouse.x += (mouse.tx - mouse.x) * 0.1;
+      mouse.y += (mouse.ty - mouse.y) * 0.1;
 
-    Particle.prototype.draw = function () {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(37, 99, 235, 0.4)";
-      ctx.fill();
-    };
-
-    for (var i = 0; i < numParticles; i++) {
-      particles.push(new Particle());
-    }
-
-    function animateParticles() {
       ctx.clearRect(0, 0, width, height);
-      for (var i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
+      time += 0.018;
 
-        for (var j = i + 1; j < particles.length; j++) {
-          var dx = particles[i].x - particles[j].x;
-          var dy = particles[i].y - particles[j].y;
+      for (var x = 0; x <= width + step; x += step) {
+        for (var y = 0; y <= height + step; y += step) {
+          var dx = x - mouse.x;
+          var dy = y - mouse.y;
           var dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
+          var maxDist = 180;
+          var pull = dist < maxDist ? (1 - dist / maxDist) * 35 : 0;
+
+          var angle = time + x * 0.01 + y * 0.015;
+          var ox = Math.cos(angle) * 8 + (dx / (dist || 1)) * pull;
+          var oy = Math.sin(angle) * 8 + (dy / (dist || 1)) * pull;
+
+          var px = x + ox;
+          var py = y + oy;
+
+          ctx.beginPath();
+          ctx.arc(px, py, 1.8, 0, Math.PI * 2);
+          ctx.fillStyle = dist < maxDist ? "rgba(6, 182, 212, 0.85)" : "rgba(37, 99, 235, 0.35)";
+          ctx.fill();
+
+          if (x < width && y < height) {
             ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = "rgba(6, 182, 212, " + (1 - dist / 120) * 0.3 + ")";
+            ctx.moveTo(px, py);
+            ctx.lineTo(x + step + Math.cos(angle + 1) * 6, y + oy);
+            ctx.strokeStyle = "rgba(37, 99, 235, 0.08)";
             ctx.lineWidth = 1;
             ctx.stroke();
           }
         }
       }
-      requestAnimationFrame(animateParticles);
+      requestAnimationFrame(renderFluid);
     }
-    animateParticles();
+    renderFluid();
   }
 
-  /* ---------- 2. Real-time 3D Card Tilt Physics ---------- */
+  /* ---------- 2. Holographic 3D Tilt Physics ---------- */
   function init3DTiltCards() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     var cards = $$(".tilt-card");
@@ -85,17 +83,17 @@
         var y = e.clientY - rect.top;
         var xc = rect.width / 2;
         var yc = rect.height / 2;
-        var dx = (x - xc) / (xc / 10);
-        var dy = (y - yc) / (yc / 10);
-        card.style.transform = "perspective(1000px) rotateY(" + dx + "deg) rotateX(" + (-dy) + "deg) translateY(-4px)";
+        var dx = (x - xc) / (xc / 12);
+        var dy = (y - yc) / (yc / 12);
+        card.style.transform = "perspective(1200px) rotateY(" + dx + "deg) rotateX(" + (-dy) + "deg) translateY(-6px)";
       });
       card.addEventListener("mouseleave", function () {
-        card.style.transform = "perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(0)";
+        card.style.transform = "perspective(1200px) rotateY(0deg) rotateX(0deg) translateY(0)";
       });
     });
   }
 
-  /* ---------- 3. Advanced Dynamic Split-Text Animation ---------- */
+  /* ---------- 3. Advanced Split-Text Staggered Animations ---------- */
   function initAdvancedAnimations() {
     var headlines = $$(".split-headline");
     headlines.forEach(function (h1) {
@@ -118,7 +116,7 @@
             wordInners.forEach(function (wi, idx) {
               setTimeout(function () {
                 wi.classList.add("animate");
-              }, idx * 40);
+              }, idx * 35);
             });
             observer.unobserve(entry.target);
           }
@@ -418,8 +416,8 @@
     Object.keys(links).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
   }
 
-  // Initialize hyper-advanced animations
-  initParticleCanvas();
+  // Initialize hyper-theoretical animations
+  initFluidCanvas();
   init3DTiltCards();
   initAdvancedAnimations();
 })();
