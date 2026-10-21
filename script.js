@@ -1,4 +1,4 @@
-/* Poonam Electronics: Hyper-Theoretical Fluid Animation Engine */
+/* Poonam Electronics: Elite Awwwards-Grade Interactive Fluid & Cursor Engine */
 (function () {
   "use strict";
   var S = window.SITE;
@@ -7,15 +7,55 @@
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
 
-  /* ---------- 1. Interactive Fluid Sine-Wave Matrix Canvas ---------- */
+  /* ---------- 1. Custom Cyber Cursor & Physics Inertia ---------- */
+  function initCustomCursor() {
+    var dot = $("#cursorDot");
+    var ring = $("#cursorRing");
+    if (!dot || !ring || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    var mouseX = -100, mouseY = -100;
+    var ringX = -100, ringY = -100;
+
+    window.addEventListener("mousemove", function (e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.transform = "translate(" + mouseX + "px, " + mouseY + "px) translate(-50%, -50%)";
+    });
+
+    function loop() {
+      ringX += (mouseX - ringX) * 0.2;
+      ringY += (mouseY - ringY) * 0.2;
+      ring.style.transform = "translate(" + ringX + "px, " + ringY + "px) translate(-50%, -50%)";
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    $$("a, button, details, input, label").forEach(function (el) {
+      el.addEventListener("mouseenter", function () {
+        ring.style.width = "60px";
+        ring.style.height = "60px";
+        ring.style.borderColor = "var(--blue)";
+        ring.style.backgroundColor = "rgba(37, 99, 235, 0.05)";
+      });
+      el.addEventListener("mouseleave", function () {
+        ring.style.width = "36px";
+        ring.style.height = "36px";
+        ring.style.borderColor = "rgba(6, 182, 212, 0.6)";
+        ring.style.backgroundColor = "transparent";
+      });
+    });
+  }
+
+  /* ---------- 2. Interactive Shockwave Fluid Matrix Canvas ---------- */
   function initFluidCanvas() {
     var canvas = $("#fluidCanvas");
     if (!canvas) return;
     var ctx = canvas.getContext("2d");
     var width, height;
-    var step = 35;
+    var step = 32;
     var time = 0;
     var mouse = { x: -1000, y: -1000, tx: -1000, ty: -1000 };
+    var ripples = [];
 
     function resize() {
       width = canvas.width = canvas.parentElement.offsetWidth;
@@ -30,38 +70,61 @@
       mouse.ty = e.clientY - rect.top;
     });
 
+    window.addEventListener("click", function (e) {
+      var rect = canvas.getBoundingClientRect();
+      if (e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom) {
+        ripples.push({ x: e.clientX - rect.left, y: e.clientY - rect.top, r: 0, maxR: 250, alpha: 1 });
+      }
+    });
+
     function renderFluid() {
-      mouse.x += (mouse.tx - mouse.x) * 0.1;
-      mouse.y += (mouse.ty - mouse.y) * 0.1;
+      mouse.x += (mouse.tx - mouse.x) * 0.12;
+      mouse.y += (mouse.ty - mouse.y) * 0.12;
 
       ctx.clearRect(0, 0, width, height);
-      time += 0.018;
+      time += 0.02;
+
+      // Render shockwave ripples
+      for (var r = ripples.length - 1; r >= 0; r--) {
+        var rip = ripples[r];
+        rip.r += 6;
+        rip.alpha = 1 - rip.r / rip.maxR;
+        if (rip.alpha <= 0) {
+          ripples.splice(r, 1);
+          continue;
+        }
+        ctx.beginPath();
+        ctx.arc(rip.x, rip.y, rip.r, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(6, 182, 212, " + rip.alpha * 0.6 + ")";
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+      }
 
       for (var x = 0; x <= width + step; x += step) {
         for (var y = 0; y <= height + step; y += step) {
           var dx = x - mouse.x;
           var dy = y - mouse.y;
           var dist = Math.sqrt(dx * dx + dy * dy);
-          var maxDist = 180;
-          var pull = dist < maxDist ? (1 - dist / maxDist) * 35 : 0;
+          var maxDist = 200;
+          var pull = dist < maxDist ? (1 - dist / maxDist) * 40 : 0;
 
-          var angle = time + x * 0.01 + y * 0.015;
-          var ox = Math.cos(angle) * 8 + (dx / (dist || 1)) * pull;
-          var oy = Math.sin(angle) * 8 + (dy / (dist || 1)) * pull;
+          var angle = time + x * 0.012 + y * 0.015;
+          var ox = Math.cos(angle) * 9 + (dx / (dist || 1)) * pull;
+          var oy = Math.sin(angle) * 9 + (dy / (dist || 1)) * pull;
 
           var px = x + ox;
           var py = y + oy;
 
           ctx.beginPath();
-          ctx.arc(px, py, 1.8, 0, Math.PI * 2);
-          ctx.fillStyle = dist < maxDist ? "rgba(6, 182, 212, 0.85)" : "rgba(37, 99, 235, 0.35)";
+          ctx.arc(px, py, 2, 0, Math.PI * 2);
+          ctx.fillStyle = dist < maxDist ? "rgba(6, 182, 212, 0.9)" : "rgba(37, 99, 235, 0.4)";
           ctx.fill();
 
           if (x < width && y < height) {
             ctx.beginPath();
             ctx.moveTo(px, py);
             ctx.lineTo(x + step + Math.cos(angle + 1) * 6, y + oy);
-            ctx.strokeStyle = "rgba(37, 99, 235, 0.08)";
+            ctx.strokeStyle = "rgba(37, 99, 235, 0.1)";
             ctx.lineWidth = 1;
             ctx.stroke();
           }
@@ -72,7 +135,7 @@
     renderFluid();
   }
 
-  /* ---------- 2. Holographic 3D Tilt Physics ---------- */
+  /* ---------- 3. Spotlight Holographic 3D Tilt Physics ---------- */
   function init3DTiltCards() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     var cards = $$(".tilt-card");
@@ -81,10 +144,13 @@
         var rect = card.getBoundingClientRect();
         var x = e.clientX - rect.left;
         var y = e.clientY - rect.top;
+        card.style.setProperty("--mouse-x", x + "px");
+        card.style.setProperty("--mouse-y", y + "px");
+
         var xc = rect.width / 2;
         var yc = rect.height / 2;
-        var dx = (x - xc) / (xc / 12);
-        var dy = (y - yc) / (yc / 12);
+        var dx = (x - xc) / (xc / 14);
+        var dy = (y - yc) / (yc / 14);
         card.style.transform = "perspective(1200px) rotateY(" + dx + "deg) rotateX(" + (-dy) + "deg) translateY(-6px)";
       });
       card.addEventListener("mouseleave", function () {
@@ -93,7 +159,7 @@
     });
   }
 
-  /* ---------- 3. Advanced Split-Text Staggered Animations ---------- */
+  /* ---------- 4. Advanced Split-Text Staggered Animations ---------- */
   function initAdvancedAnimations() {
     var headlines = $$(".split-headline");
     headlines.forEach(function (h1) {
@@ -116,7 +182,7 @@
             wordInners.forEach(function (wi, idx) {
               setTimeout(function () {
                 wi.classList.add("animate");
-              }, idx * 35);
+              }, idx * 30);
             });
             observer.unobserve(entry.target);
           }
@@ -416,7 +482,8 @@
     Object.keys(links).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
   }
 
-  // Initialize hyper-theoretical animations
+  // Initialize elite awe-inspiring animation suites
+  initCustomCursor();
   initFluidCanvas();
   init3DTiltCards();
   initAdvancedAnimations();
