@@ -6,7 +6,7 @@
   <title>Poonam Electronics Chhal | Electronics, Furniture, Plumbing</title>
   <meta name="description" content="Poonam Electronics in Chhal, Raigarh: electronics, furniture and plumbing materials in one shop. Open 9 AM to 7:30 PM.">
   <link rel="stylesheet" href="style.css">
-  <!-- Three.js CDN for World-Class WebGL Shaders -->
+  <!-- Three.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
@@ -20,39 +20,46 @@
         <span class="brand-name">Poonam Electronics</span>
       </a>
 
-      <!-- Navigation with PES Button linked to https://poonam-electronics.web.app/ -->
-      <nav class="nav" id="nav">
+      <!-- Navigation with PES button pointing to https://poonam-electronics.web.app/[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span) -->
+      <nav class="nav" id="nav" aria-label="Main Navigation">
         <a href="#home">Home</a>
         <a href="#about">About</a>
         <a href="#services">Services</a>
         <a href="#contact">Contact</a>
-        <a class="pes-nav-btn" href="https://poonam-electronics.web.app/" target="_blank" rel="noopener">PES[span_5](start_span)[span_5](end_span)[span_6](start_span)[span_6](end_span)</a>
+        <a class="pes-nav-btn" href="https://poonam-electronics.web.app/" target="_blank" rel="noopener">PES</a>
       </nav>
+
+      <div class="header-actions">
+        <a class="btn btn-primary btn-sm" id="waHeaderBtn" target="_blank" rel="noopener">WhatsApp</a>
+        <button class="menu-btn" id="menuBtn" type="button" aria-label="Toggle navigation menu">☰</button>
+      </div>
     </div>
   </header>
 
   <main id="main">
-    <!-- ============ HERO WITH REAL WEBGL SHADER CANVAS ============ -->
+    <!-- ============ HERO WITH WEBGL SHADER ============ -->
     <section class="hero" id="home">
       <div id="webglCanvas"></div>
 
       <div class="container hero-grid">
         <div class="hero-copy">
           <h1 class="reveal-text">Electronics, furniture and plumbing, <span class="glow-highlight">all in one shop</span> in Chhal, Raigarh.</h1>
-          <p class="lead reveal-text">Poonam Electronics is a local retail shop in Chhal, Raigarh. Walk in, tell us what you need, and our team will help you find the right fit.</p>
+          <p class="lead reveal-text">Poonam Electronics is a trusted retail shop in Chhal, Raigarh. Walk in, tell us what you need, and our team will help you find the right fit.</p>
           <div class="cta-row reveal-text">
             <a class="btn btn-primary" href="#contact">Visit us</a>
             <a class="btn btn-ghost" href="#contact">Contact us</a>
           </div>
+          <p class="hero-note reveal-text">📍 Chhal, Raigarh, Chhattisgarh 496665</p>
         </div>
 
-        <div class="hero-visual reveal-text tilt-card">
-          <div class="status" id="status">
-            <span class="dot" aria-hidden="true"></span>
-            <span>
-              <strong id="statusText">Open today</strong>
-              <small>9:00 AM to 7:30 PM</small>
-            </span>
+        <div class="hero-visual reveal-text tilt-card" style="min-height:320px; background:#0B1220; border-radius:24px; display:flex; align-items:center; justify-content:center; color:#fff; padding:30px; box-shadow:0 20px 40px rgba(0,0,0,0.3);">
+          <div style="text-align:center;">
+            <h3 style="color:var(--neon-cyan); font-size:24px; margin-bottom:10px;">Poonam Electronics</h3>
+            <p style="color:#94A3B8; font-size:15px;">Chhal's Premier Retail Destination</p>
+            <div id="statusBadge" style="margin-top:20px; display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.08); padding:8px 16px; border-radius:99px; font-size:14px;">
+              <span class="dot" id="statusDot"></span>
+              <span id="statusText">Open today: 9:00 AM - 7:30 PM</span>
+            </div>
           </div>
         </div>
       </div>
@@ -78,19 +85,62 @@
       </div>
     </section>
 
+    <!-- ============ ABOUT ============ -->
+    <section class="section" id="about">
+      <div class="container about-grid">
+        <div>
+          <h2 class="section-title reveal-text">A local electronics, furniture and plumbing shop in Chhal, Raigarh</h2>
+          <p class="body-lg reveal-text">Poonam Electronics serves households, shopkeepers, and builders across Chhal. Having multiple product lines under one roof means you save time and effort on every project.</p>
+          <p class="body-lg reveal-text" lang="hi">पूनम इलेक्ट्रॉनिक्स, छाल, रायगढ़ (छत्तीसगढ़): इलेक्ट्रॉनिक्स, फर्नीचर और प्लंबिंग का सामान एक ही दुकान पर।</p>
+        </div>
+        <div class="why reveal-text">
+          <h3>Why customers choose us</h3>
+          <ul>
+            <li><span>✓ Three needs under one convenient roof</span></li>
+            <li><span>✓ Honest guidance tailored to your project</span></li>
+            <li><span>✓ Direct contact numbers for quick availability checks</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERVICES ============ -->
+    <section class="section section-gray" id="services">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Our Retail Offerings</h2>
+          <p class="body-lg">Quality goods verified for daily durability and performance.</p>
+        </div>
+        <ul class="services">
+          <li class="tilt-card"><h3>Electronics Retail</h3><p>Wiring, switches, lighting, and home appliances over the counter.</p></li>
+          <li class="tilt-card"><h3>Furniture Selection</h3><p>Beds, tables, chairs, and cabinets for residential and commercial spaces.</p></li>
+          <li class="tilt-card"><h3>Plumbing Supplies</h3><p>PVC pipes, taps, connectors, and complete repair solutions.</p></li>
+        </ul>
+      </div>
+    </section>
+
     <!-- ============ CONTACT ============ -->
     <section class="section" id="contact">
       <div class="container">
         <div class="section-head">
-          <h2 class="section-title">Visit Poonam Electronics in Chhal, Raigarh</h2>
-          <p class="body-lg">Come to the shop, or call and WhatsApp us directly.</p>
+          <h2 class="section-title">Visit or Contact Us</h2>
+          <p class="body-lg">Reach out via phone or drop by our showroom in Chhal.</p>
         </div>
         <div class="contact-grid">
           <div class="info-card">
-            <h3>Shop Address</h3>
-            <p>Poonam Electronics, Chhal, Raigarh, Chhattisgarh 496665</p>
-            <p>Phone: <a href="tel:+919340329716"><strong>+91 93403 29716</strong></a></p>
-            <a class="btn btn-primary" href="https://wa.me/919340329716?text=Hello%20Poonam%20Electronics" target="_blank" rel="noopener">Chat on WhatsApp</a>
+            <div class="info-row">
+              <div>
+                <h3>Shop Address</h3>
+                <p>Poonam Electronics, Chhal, Raigarh, Chhattisgarh 496665</p>
+                <p>Phone: <a href="tel:+919340329716" style="color:var(--blue); font-weight:600;">+91 93403 29716</a></p>
+                <div style="margin-top:16px;">
+                  <a class="btn btn-primary" id="waContactBtn" target="_blank" rel="noopener">Chat on WhatsApp</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="map-wrap" style="border-radius:24px; overflow:hidden; border:1px solid var(--line); min-height:360px;">
+            <iframe title="Map location" loading="lazy" src="https://maps.google.com/maps?q=22.126558,83.1208&z=17&output=embed" style="width:100%; height:100%; min-height:360px; border:0;"></iframe>
           </div>
         </div>
       </div>
@@ -101,7 +151,11 @@
     <div class="container footer-grid">
       <div>
         <strong>Poonam Electronics</strong>
-        <p>Electronics, furniture and plumbing materials in Chhal, Raigarh.</p>
+        <p>Electronics, furniture and plumbing in Chhal, Raigarh.</p>
+      </div>
+      <div>
+        <p>Open Everyday: 9:00 AM - 7:30 PM</p>
+        <p>Phone: +91 93403 29716</p>
       </div>
     </div>
   </footer>
