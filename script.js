@@ -1,4 +1,4 @@
-/* Poonam Electronics: page behaviour & cinematic animations */
+/* Poonam Electronics: page behaviour & hyper-advanced lively animations */
 (function () {
   "use strict";
   var S = window.SITE;
@@ -7,7 +7,95 @@
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
 
-  /* ---------- Advanced Dynamic Split-Text Animation ---------- */
+  /* ---------- 1. Interactive Canvas Particle Constellation ---------- */
+  function initParticleCanvas() {
+    var canvas = $("#particleCanvas");
+    if (!canvas) return;
+    var ctx = canvas.getContext("2d");
+    var width, height;
+    var particles = [];
+    var numParticles = 40;
+
+    function resize() {
+      width = canvas.width = canvas.parentElement.offsetWidth;
+      height = canvas.height = canvas.parentElement.offsetHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    function Particle() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.vx = (Math.random() - 0.5) * 0.8;
+      this.vy = (Math.random() - 0.5) * 0.8;
+      this.radius = Math.random() * 2 + 1;
+    }
+
+    Particle.prototype.update = function () {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0 || this.x > width) this.vx = -this.vx;
+      if (this.y < 0 || this.y > height) this.vy = -this.vy;
+    };
+
+    Particle.prototype.draw = function () {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(37, 99, 235, 0.4)";
+      ctx.fill();
+    };
+
+    for (var i = 0; i < numParticles; i++) {
+      particles.push(new Particle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      for (var i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+
+        for (var j = i + 1; j < particles.length; j++) {
+          var dx = particles[i].x - particles[j].x;
+          var dy = particles[i].y - particles[j].y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = "rgba(6, 182, 212, " + (1 - dist / 120) * 0.3 + ")";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+  }
+
+  /* ---------- 2. Real-time 3D Card Tilt Physics ---------- */
+  function init3DTiltCards() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var cards = $$(".tilt-card");
+    cards.forEach(function (card) {
+      card.addEventListener("mousemove", function (e) {
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var xc = rect.width / 2;
+        var yc = rect.height / 2;
+        var dx = (x - xc) / (xc / 10);
+        var dy = (y - yc) / (yc / 10);
+        card.style.transform = "perspective(1000px) rotateY(" + dx + "deg) rotateX(" + (-dy) + "deg) translateY(-4px)";
+      });
+      card.addEventListener("mouseleave", function () {
+        card.style.transform = "perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(0)";
+      });
+    });
+  }
+
+  /* ---------- 3. Advanced Dynamic Split-Text Animation ---------- */
   function initAdvancedAnimations() {
     var headlines = $$(".split-headline");
     headlines.forEach(function (h1) {
@@ -30,12 +118,12 @@
             wordInners.forEach(function (wi, idx) {
               setTimeout(function () {
                 wi.classList.add("animate");
-              }, idx * 45);
+              }, idx * 40);
             });
             observer.unobserve(entry.target);
           }
         });
-      }, { rootMargin: "0px 0px -60px 0px", threshold: 0.15 });
+      }, { rootMargin: "0px 0px -50px 0px", threshold: 0.1 });
 
       revealEls.forEach(function (el) { observer.observe(el); });
     } else {
@@ -330,6 +418,8 @@
     Object.keys(links).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
   }
 
-  // Initialize heavy cinematic animations
+  // Initialize hyper-advanced animations
+  initParticleCanvas();
+  init3DTiltCards();
   initAdvancedAnimations();
 })();
