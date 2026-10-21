@@ -1,4 +1,4 @@
-/* Poonam Electronics: Elite Awwwards-Grade Interactive Fluid & Cursor Engine */
+/* Poonam Electronics: Ultimate Cybernetic Neural Engine & Quantum Physics */
 (function () {
   "use strict";
   var S = window.SITE;
@@ -7,7 +7,7 @@
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
 
-  /* ---------- 1. Custom Cyber Cursor & Physics Inertia ---------- */
+  /* ---------- 1. Quantum Liquid Custom Cursor & Physics Inertia ---------- */
   function initCustomCursor() {
     var dot = $("#cursorDot");
     var ring = $("#cursorRing");
@@ -23,8 +23,8 @@
     });
 
     function loop() {
-      ringX += (mouseX - ringX) * 0.2;
-      ringY += (mouseY - ringY) * 0.2;
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
       ring.style.transform = "translate(" + ringX + "px, " + ringY + "px) translate(-50%, -50%)";
       requestAnimationFrame(loop);
     }
@@ -32,30 +32,30 @@
 
     $$("a, button, details, input, label").forEach(function (el) {
       el.addEventListener("mouseenter", function () {
-        ring.style.width = "60px";
-        ring.style.height = "60px";
-        ring.style.borderColor = "var(--blue)";
-        ring.style.backgroundColor = "rgba(37, 99, 235, 0.05)";
+        ring.style.width = "68px";
+        ring.style.height = "68px";
+        ring.style.borderColor = "var(--neon-cyan)";
+        ring.style.backgroundColor = "rgba(6, 182, 212, 0.08)";
       });
       el.addEventListener("mouseleave", function () {
-        ring.style.width = "36px";
-        ring.style.height = "36px";
-        ring.style.borderColor = "rgba(6, 182, 212, 0.6)";
+        ring.style.width = "44px";
+        ring.style.height = "44px";
+        ring.style.borderColor = "rgba(6, 182, 212, 0.7)";
         ring.style.backgroundColor = "transparent";
       });
     });
   }
 
-  /* ---------- 2. Interactive Shockwave Fluid Matrix Canvas ---------- */
-  function initFluidCanvas() {
-    var canvas = $("#fluidCanvas");
+  /* ---------- 2. Cybernetic Neural Grid & Lightning Arc Canvas ---------- */
+  function initNeuralCanvas() {
+    var canvas = $("#neuralCanvas");
     if (!canvas) return;
     var ctx = canvas.getContext("2d");
     var width, height;
-    var step = 32;
-    var time = 0;
+    var particles = [];
+    var numParticles = 48;
     var mouse = { x: -1000, y: -1000, tx: -1000, ty: -1000 };
-    var ripples = [];
+    var lightningBolts = [];
 
     function resize() {
       width = canvas.width = canvas.parentElement.offsetWidth;
@@ -73,69 +73,101 @@
     window.addEventListener("click", function (e) {
       var rect = canvas.getBoundingClientRect();
       if (e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom) {
-        ripples.push({ x: e.clientX - rect.left, y: e.clientY - rect.top, r: 0, maxR: 250, alpha: 1 });
+        var cx = e.clientX - rect.left;
+        var cy = e.clientY - rect.top;
+        // Trigger lightning flash to nearby particles
+        particles.forEach(function (p) {
+          var d = Math.hypot(p.x - cx, p.y - cy);
+          if (d < 220) {
+            lightningBolts.push({ x1: cx, y1: cy, x2: p.x, y2: p.y, alpha: 1 });
+          }
+        });
       }
     });
 
-    function renderFluid() {
-      mouse.x += (mouse.tx - mouse.x) * 0.12;
-      mouse.y += (mouse.ty - mouse.y) * 0.12;
+    function Particle() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.vx = (Math.random() - 0.5) * 1.2;
+      this.vy = (Math.random() - 0.5) * 1.2;
+      this.radius = Math.random() * 2.2 + 1.2;
+    }
+
+    Particle.prototype.update = function () {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0 || this.x > width) this.vx = -this.vx;
+      if (this.y < 0 || this.y > height) this.vy = -this.vy;
+    };
+
+    Particle.prototype.draw = function () {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(34, 211, 238, 0.85)";
+      ctx.fill();
+    };
+
+    for (var i = 0; i < numParticles; i++) {
+      particles.push(new Particle());
+    }
+
+    function renderNeural() {
+      mouse.x += (mouse.tx - mouse.x) * 0.1;
+      mouse.y += (mouse.ty - mouse.y) * 0.1;
 
       ctx.clearRect(0, 0, width, height);
-      time += 0.02;
 
-      // Render shockwave ripples
-      for (var r = ripples.length - 1; r >= 0; r--) {
-        var rip = ripples[r];
-        rip.r += 6;
-        rip.alpha = 1 - rip.r / rip.maxR;
-        if (rip.alpha <= 0) {
-          ripples.splice(r, 1);
+      // Render lightning bolts
+      for (var lb = lightningBolts.length - 1; lb >= 0; lb--) {
+        var bolt = lightningBolts[lb];
+        bolt.alpha -= 0.05;
+        if (bolt.alpha <= 0) {
+          lightningBolts.splice(lb, 1);
           continue;
         }
         ctx.beginPath();
-        ctx.arc(rip.x, rip.y, rip.r, 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(6, 182, 212, " + rip.alpha * 0.6 + ")";
-        ctx.lineWidth = 2.5;
+        ctx.moveTo(bolt.x1, bolt.y1);
+        ctx.lineTo(bolt.x2, bolt.y2);
+        ctx.strokeStyle = "rgba(34, 211, 238, " + bolt.alpha + ")";
+        ctx.lineWidth = 2;
         ctx.stroke();
       }
 
-      for (var x = 0; x <= width + step; x += step) {
-        for (var y = 0; y <= height + step; y += step) {
-          var dx = x - mouse.x;
-          var dy = y - mouse.y;
-          var dist = Math.sqrt(dx * dx + dy * dy);
-          var maxDist = 200;
-          var pull = dist < maxDist ? (1 - dist / maxDist) * 40 : 0;
+      // Update and connect particles
+      for (var i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
 
-          var angle = time + x * 0.012 + y * 0.015;
-          var ox = Math.cos(angle) * 9 + (dx / (dist || 1)) * pull;
-          var oy = Math.sin(angle) * 9 + (dy / (dist || 1)) * pull;
-
-          var px = x + ox;
-          var py = y + oy;
-
+        var dMouse = Math.hypot(particles[i].x - mouse.x, particles[i].y - mouse.y);
+        if (dMouse < 160) {
           ctx.beginPath();
-          ctx.arc(px, py, 2, 0, Math.PI * 2);
-          ctx.fillStyle = dist < maxDist ? "rgba(6, 182, 212, 0.9)" : "rgba(37, 99, 235, 0.4)";
-          ctx.fill();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.strokeStyle = "rgba(6, 182, 212, " + (1 - dMouse / 160) * 0.6 + ")";
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
+        }
 
-          if (x < width && y < height) {
+        for (var j = i + 1; j < particles.length; j++) {
+          var dx = particles[i].x - particles[j].x;
+          var dy = particles[i].y - particles[j].y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 130) {
             ctx.beginPath();
-            ctx.moveTo(px, py);
-            ctx.lineTo(x + step + Math.cos(angle + 1) * 6, y + oy);
-            ctx.strokeStyle = "rgba(37, 99, 235, 0.1)";
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = "rgba(37, 99, 235, " + (1 - dist / 130) * 0.35 + ")";
             ctx.lineWidth = 1;
             ctx.stroke();
           }
         }
       }
-      requestAnimationFrame(renderFluid);
+      requestAnimationFrame(renderNeural);
     }
-    renderFluid();
+    renderNeural();
   }
 
-  /* ---------- 3. Spotlight Holographic 3D Tilt Physics ---------- */
+  /* ---------- 3. Holographic 3D Specular Tilt Physics ---------- */
   function init3DTiltCards() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     var cards = $$(".tilt-card");
@@ -149,9 +181,9 @@
 
         var xc = rect.width / 2;
         var yc = rect.height / 2;
-        var dx = (x - xc) / (xc / 14);
-        var dy = (y - yc) / (yc / 14);
-        card.style.transform = "perspective(1200px) rotateY(" + dx + "deg) rotateX(" + (-dy) + "deg) translateY(-6px)";
+        var dx = (x - xc) / (xc / 15);
+        var dy = (y - yc) / (yc / 15);
+        card.style.transform = "perspective(1200px) rotateY(" + dx + "deg) rotateX(" + (-dy) + "deg) translateY(-8px)";
       });
       card.addEventListener("mouseleave", function () {
         card.style.transform = "perspective(1200px) rotateY(0deg) rotateX(0deg) translateY(0)";
@@ -182,7 +214,7 @@
             wordInners.forEach(function (wi, idx) {
               setTimeout(function () {
                 wi.classList.add("animate");
-              }, idx * 30);
+              }, idx * 28);
             });
             observer.unobserve(entry.target);
           }
@@ -482,9 +514,9 @@
     Object.keys(links).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
   }
 
-  // Initialize elite awe-inspiring animation suites
+  // Initialize elite AAA cybernetic suites
   initCustomCursor();
-  initFluidCanvas();
+  initNeuralCanvas();
   init3DTiltCards();
   initAdvancedAnimations();
 })();
