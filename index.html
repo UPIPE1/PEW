@@ -1,166 +1,1128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Poonam Electronics Chhal | Electronics, Furniture, Plumbing</title>
-  <meta name="description" content="Poonam Electronics in Chhal, Raigarh: electronics, furniture and plumbing materials in one shop. Open 9 AM to 7:30 PM.">
-  <link rel="stylesheet" href="style.css">
-  <!-- Three.js CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Poonam Electronics — Chhal, Raigarh | TVs, Mobiles, Appliances & More</title>
+<meta name="description" content="Poonam Electronics, Chhal, Raigarh (C.G.) — mobiles, LED TVs, refrigerators, washing machines, ACs, kitchen appliances & more. Trusted for 15+ years. Open 9:00 AM – 7:30 PM, all 7 days.">
+<meta name="theme-color" content="#060B14">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<script src="config.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   POONAM ELECTRONICS — "Electric Showroom" UI
+   Palette: night navy · electric blue · signboard yellow
+   Type:    Unbounded (display) / Instrument Sans (body) /
+            JetBrains Mono (labels)
+   ============================================================ */
+:root{
+  --bg-dark:#060B14; --bg-dark-2:#0A1322; --panel:#0E1A2C;
+  --line-dark:rgba(122,162,247,.16);
+  --paper:#F4F7FC; --white:#FFFFFF;
+  --ink:#101828; --muted:#5D6B84; --line:#E1E7F0;
+  --blue:#2B6CF6; --blue-d:#1E56D6; --cyan:#37E0F6;
+  --yellow:#FFCC2E; --yellow-d:#F5B900;
+  --green:#21C063; --wa:#1FBF5F;
+  --tx:#E8EEF7; --tx-dim:rgba(214,228,246,.66);
+  --r:16px; --r-sm:11px;
+  --shadow:0 2px 4px rgba(9,17,32,.05),0 14px 34px rgba(9,17,32,.09);
+  --glow:0 0 0 1px rgba(55,224,246,.25),0 18px 44px rgba(6,20,44,.5);
+  --header-h:72px;
+  --fd:"Unbounded",system-ui,sans-serif;
+  --fb:"Instrument Sans",system-ui,-apple-system,sans-serif;
+  --fm:"JetBrains Mono",ui-monospace,monospace;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 16px)}
+body{margin:0;font:400 17px/1.65 var(--fb);color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4,p,ul,figure{margin:0}
+ul{padding:0;list-style:none}
+button{font:inherit}
+::selection{background:var(--yellow);color:#101828}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:3px;border-radius:6px}
+.container{width:min(1180px,100% - 44px);margin-inline:auto}
+.mono{font:500 12px/1.4 var(--fm);letter-spacing:.16em;text-transform:uppercase}
+.ico{width:20px;height:20px;flex:none}
+.skip{position:absolute;left:-999px;top:8px;z-index:200;background:var(--yellow);color:#101828;padding:10px 16px;border-radius:8px;font-weight:700}
+.skip:focus{left:8px}
+/* film-grain texture over everything */
+body::after{content:"";position:fixed;inset:0;z-index:90;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E")}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;
+  border-radius:12px;border:2px solid transparent;font:600 16px/1 var(--fb);cursor:pointer;
+  transition:transform .2s,background-color .2s,border-color .2s,color .2s,box-shadow .2s;position:relative}
+.btn:active{transform:translateY(2px)}
+.btn .ico{width:19px;height:19px}
+.btn-sm{min-height:44px;padding:0 18px;font-size:15px;border-radius:10px}
+.btn-call{background:var(--yellow);color:#101828;font-weight:700;box-shadow:0 6px 20px rgba(255,204,46,.28)}
+.btn-call:hover{background:var(--yellow-d)}
+.btn-wa{background:var(--wa);color:#05240F;font-weight:700}
+.btn-wa:hover{background:#17A94F}
+.btn-ghost{border-color:var(--line-dark);color:var(--tx)}
+.btn-ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-blue:hover{background:var(--blue-d)}
+.btn-line{border-color:var(--line);color:var(--ink);background:#fff}
+.btn-line:hover{border-color:var(--blue);color:var(--blue)}
+.btn-waline{border-color:rgba(31,191,95,.45);color:#0E8A43;background:rgba(31,191,95,.08)}
+.btn-waline:hover{background:var(--wa);border-color:var(--wa);color:#fff}
+@media (prefers-reduced-motion: no-preference){
+  .btn::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+    background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.35) 50%,transparent 62%);
+    transform:translateX(-130%);transition:transform .7s var(--ease)}
+  .btn:hover::after{transform:translateX(130%)}
+}
+
+/* ---------- progress + status strip ---------- */
+.progress{position:fixed;inset:0 0 auto 0;height:3px;z-index:120;pointer-events:none}
+.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--yellow));transform-origin:0 50%;transform:scaleX(0)}
+.topline{background:var(--bg-dark);border-bottom:1px solid var(--line-dark);color:var(--tx-dim)}
+.topline-inner{display:flex;justify-content:space-between;gap:20px;padding:9px 0}
+.topline .mono{font-size:11px}
+.topline .loc{color:var(--cyan)}
+@media (max-width:680px){.topline{display:none}}
+
+/* ---------- notice bar ---------- */
+.notice{background:var(--yellow);color:#101828}
+.notice-inner{display:flex;align-items:center;gap:12px;padding:11px 0;font-weight:600;font-size:15px}
+.notice .ico{width:18px;height:18px}
+
+/* ---------- header ---------- */
+.site-header{position:sticky;top:0;z-index:100;background:rgba(6,11,20,.94);color:var(--tx);
+  border-bottom:1px solid var(--line-dark);height:var(--header-h);backdrop-filter:blur(8px);transition:height .3s var(--ease),box-shadow .3s}
+.site-header.scrolled{height:62px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.header-inner{display:flex;align-items:center;gap:22px;height:100%}
+.brand{display:flex;align-items:center;gap:12px;margin-right:auto}
+.brand-mark{width:40px;height:40px;flex:none;display:grid;place-items:center;border-radius:11px;
+  background:linear-gradient(140deg,var(--yellow),#FF9D2E);color:#101828;box-shadow:0 4px 16px rgba(255,204,46,.35)}
+.brand-mark .ico{width:22px;height:22px}
+.brand-txt strong{display:block;font:700 16px/1.05 var(--fd);letter-spacing:.02em;color:#fff}
+.brand-txt span{display:block;font:500 9.5px/1 var(--fm);letter-spacing:.42em;color:var(--cyan);margin-top:4px}
+.nav{display:flex;gap:26px}
+.nav a{font:600 12px/1 var(--fm);letter-spacing:.16em;text-transform:uppercase;color:var(--tx-dim);
+  padding:8px 0;position:relative;transition:color .2s}
+.nav a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:2px;background:var(--yellow);transition:right .35s var(--ease)}
+.nav a:hover{color:#fff}
+.nav a.active{color:var(--yellow)}
+.nav a.active::after{right:0}
+.menu-btn{display:none;width:46px;height:46px;place-items:center;background:transparent;color:#fff;
+  border:1.5px solid var(--line-dark);border-radius:12px;cursor:pointer}
+.menu-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.menu-btn .ico{width:22px;height:22px}
+.menu-btn .i-x{display:none}
+.menu-btn[aria-expanded="true"] .i-m{display:none}
+.menu-btn[aria-expanded="true"] .i-x{display:block}
+
+/* mobile menu overlay */
+.mnav{position:fixed;inset:var(--header-h) 0 0 0;z-index:95;background:var(--bg-dark-2);
+  display:flex;flex-direction:column;padding:30px 26px 34px;gap:6px;
+  opacity:0;visibility:hidden;transform:translateY(-12px);transition:opacity .35s var(--ease),transform .35s var(--ease),visibility .35s}
+.mnav.open{opacity:1;visibility:visible;transform:none}
+.mnav a{font:600 26px/1.2 var(--fd);color:var(--tx);padding:14px 0;border-bottom:1px solid var(--line-dark);
+  display:flex;align-items:baseline;gap:14px;transition:color .2s,padding-left .3s var(--ease)}
+.mnav a:hover,.mnav a.active{color:var(--yellow);padding-left:8px}
+.mnav a small{font:500 11px var(--fm);color:var(--cyan);letter-spacing:.2em}
+.mnav .mnav-cta{display:flex;gap:10px;margin-top:auto;padding-top:24px}
+.mnav .mnav-cta .btn{flex:1}
+
+/* ---------- hero ---------- */
+.hero{background:
+  radial-gradient(950px 520px at 88% -12%,rgba(43,108,246,.20),transparent 62%),
+  radial-gradient(720px 460px at -8% 46%,rgba(55,224,246,.09),transparent 60%),
+  var(--bg-dark);
+  color:var(--tx);padding:76px 0 96px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:linear-gradient(rgba(122,162,247,.06) 1px,transparent 1px) 0 0/100% 56px,
+             linear-gradient(90deg,rgba(122,162,247,.06) 1px,transparent 1px) 0 0/56px 100%;
+  mask-image:radial-gradient(80% 80% at 60% 30%,#000 30%,transparent 100%)}
+.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:60px;align-items:center;position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:12px;font:600 12px var(--fm);letter-spacing:.22em;
+  text-transform:uppercase;color:var(--cyan)}
+.eyebrow::before{content:"";width:34px;height:2px;background:linear-gradient(90deg,var(--cyan),transparent)}
+.hero h1{margin-top:22px;font:700 clamp(34px,4.6vw,58px)/1.1 var(--fd);letter-spacing:-.01em;color:#fff}
+.hero h1 .l2{color:var(--yellow);display:block}
+.hero .hi{margin-top:18px;font-weight:500;font-size:16.5px;color:var(--tx-dim)}
+.hero .hi b{color:var(--tx);font-weight:600}
+.lead{margin-top:18px;font-size:18.5px;color:var(--tx-dim);max-width:50ch}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.cta-note{display:flex;align-items:center;gap:9px;margin-top:20px;font:500 12px var(--fm);letter-spacing:.1em;text-transform:uppercase;color:var(--tx-dim)}
+.cta-note .ico{width:16px;height:16px;color:var(--yellow)}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:44px;border-top:1px solid var(--line-dark)}
+.hero-stats li{padding:18px 18px 0 0;border-right:1px solid var(--line-dark);padding-left:18px}
+.hero-stats li:first-child{padding-left:0}
+.hero-stats li:last-child{border-right:0}
+.hero-stats strong{display:block;font:700 27px/1 var(--fd);color:#fff}
+.hero-stats strong em{font-style:normal;color:var(--yellow)}
+.hero-stats span{display:block;margin-top:7px;font:500 10.5px var(--fm);letter-spacing:.16em;text-transform:uppercase;color:var(--tx-dim)}
+
+/* hero visual / slider */
+.hero-visual{position:relative;aspect-ratio:11/9;border-radius:20px;overflow:hidden;background:var(--panel);box-shadow:var(--glow)}
+.hero-visual .corner{position:absolute;z-index:5;width:22px;height:22px;border:2px solid var(--cyan);pointer-events:none;opacity:.9}
+.corner.tl{top:12px;left:12px;border-right:0;border-bottom:0;border-radius:6px 0 0 0}
+.corner.tr{top:12px;right:12px;border-left:0;border-bottom:0;border-radius:0 6px 0 0}
+.corner.bl{bottom:12px;left:12px;border-right:0;border-top:0;border-radius:0 0 0 6px}
+.corner.br{bottom:12px;right:12px;border-left:0;border-top:0;border-radius:0 0 6px 0}
+.slides{position:absolute;inset:0;display:flex;transition:transform .65s var(--ease);touch-action:pan-y}
+.slide{flex:0 0 100%;position:relative;overflow:hidden}
+.slide img{width:100%;height:100%;object-fit:cover}
+@media (prefers-reduced-motion: no-preference){
+  .slide.is-active img{animation:kenburns 8.5s ease-out both}
+}
+@keyframes kenburns{from{transform:scale(1.1)}to{transform:scale(1)}}
+.slide::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,11,20,.12),transparent 30%,transparent 60%,rgba(6,11,20,.55))}
+.cam-tag{position:absolute;z-index:6;top:20px;left:22px;display:flex;align-items:center;gap:8px;
+  font:600 10.5px var(--fm);letter-spacing:.24em;color:var(--cyan)}
+.cam-tag i{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+@media (prefers-reduced-motion: no-preference){.cam-tag i{animation:blink 2s infinite}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.slide-count{position:absolute;z-index:6;top:18px;right:22px;font:600 12px var(--fm);letter-spacing:.2em;color:rgba(232,238,247,.85)}
+.hero-status{position:absolute;z-index:6;left:18px;bottom:18px;display:flex;align-items:center;gap:11px;
+  background:rgba(6,11,20,.82);border:1px solid var(--line-dark);backdrop-filter:blur(6px);
+  border-radius:13px;padding:11px 16px;font-size:14.5px;color:var(--tx)}
+.hero-status b{font-weight:700}
+.hero-status small{color:var(--tx-dim)}
+.dot{width:10px;height:10px;border-radius:50%;background:#7A8AA3;flex:none}
+.is-open .dot{background:var(--green)}
+.is-closed .dot{background:#F87171}
+@media (prefers-reduced-motion: no-preference){
+  .is-open .dot{animation:ping 2.2s ease-out infinite}
+}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(33,192,99,.5)}70%,100%{box-shadow:0 0 0 9px rgba(33,192,99,0)}}
+.slider-btn{position:absolute;z-index:6;top:50%;transform:translateY(-50%);width:42px;height:42px;
+  display:grid;place-items:center;border:0;border-radius:50%;cursor:pointer;
+  background:rgba(6,11,20,.66);color:#fff;border:1px solid var(--line-dark);transition:background .2s,color .2s}
+.slider-btn:hover{background:var(--yellow);color:#101828;border-color:var(--yellow)}
+.slider-btn.prev{left:14px}.slider-btn.next{right:14px}
+.slider-btn .ico{width:18px;height:18px}
+.dots{position:absolute;z-index:6;right:20px;bottom:22px;display:flex;gap:7px}
+.dots button{width:9px;height:9px;padding:0;border:0;border-radius:99px;cursor:pointer;background:rgba(255,255,255,.45);
+  transition:width .25s var(--ease),background .25s}
+.dots button[aria-current="true"]{width:26px;background:var(--yellow)}
+
+/* ---------- LED ticker ---------- */
+.ticker{background:var(--yellow);border-block:2px solid #101828;overflow:hidden;position:relative;z-index:2}
+.ticker-track{display:flex;width:max-content;gap:0}
+@media (prefers-reduced-motion: no-preference){
+  .ticker-track{animation:tick 30s linear infinite}
+  .ticker:hover .ticker-track{animation-play-state:paused}
+}
+@media (prefers-reduced-motion: reduce){.ticker{overflow-x:auto}}
+@keyframes tick{to{transform:translateX(-50%)}}
+.ticker-track span{display:inline-flex;align-items:center;gap:26px;padding:12px 13px;
+  font:700 13px var(--fm);letter-spacing:.22em;color:#101828;white-space:nowrap}
+.ticker-track span::after{content:"✦";font-size:11px}
+
+/* ---------- sections common ---------- */
+.section{padding:104px 0}
+.sec-head{max-width:720px;margin-bottom:52px}
+.sec-head .idx,.idx{display:inline-flex;align-items:center;gap:10px;font:600 12px var(--fm);letter-spacing:.24em;text-transform:uppercase;color:var(--blue)}
+.idx::before{content:"";width:26px;height:2px;background:currentColor}
+.sec-title{margin-top:16px;font:700 clamp(27px,3.4vw,40px)/1.16 var(--fd);letter-spacing:-.01em;max-width:22ch}
+.sec-sub{margin-top:16px;font-size:18px;color:var(--muted);max-width:58ch}
+.dark{background:var(--bg-dark);color:var(--tx);position:relative;overflow:hidden}
+.dark::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.4;
+  background:linear-gradient(rgba(122,162,247,.05) 1px,transparent 1px) 0 0/100% 56px,
+             linear-gradient(90deg,rgba(122,162,247,.05) 1px,transparent 1px) 0 0/56px 100%}
+.dark .idx{color:var(--cyan)}
+.dark .sec-title{color:#fff}
+.dark .sec-sub{color:var(--tx-dim)}
+.dark .container{position:relative}
+
+/* ---------- categories ---------- */
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.cat{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px 24px 22px;position:relative;
+  transition:transform .3s var(--ease),border-color .25s,box-shadow .3s}
+.cat:hover{transform:translateY(-5px);border-color:var(--blue);box-shadow:var(--shadow)}
+.cat-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+.cat-ico{width:52px;height:52px;display:grid;place-items:center;border-radius:13px;
+  background:linear-gradient(150deg,var(--bg-dark-2),var(--panel));color:var(--cyan);transition:transform .4s var(--ease)}
+.cat-ico .ico{width:26px;height:26px}
+.cat:hover .cat-ico{transform:rotate(-7deg) scale(1.07)}
+.cat .idx{color:#9AA8BF;font-size:10.5px}
+.cat .idx::before{display:none}
+.cat h3{font:600 17px/1.3 var(--fd);letter-spacing:0}
+.cat p{margin-top:8px;font-size:15px;color:var(--muted)}
+.cat .tag-line{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);
+  font:500 10.5px var(--fm);letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+
+/* ---------- services ---------- */
+.svcs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.svc{position:relative;background:rgba(255,255,255,.035);border:1px solid var(--line-dark);border-radius:var(--r);
+  padding:30px 28px;overflow:hidden;transition:border-color .25s,background .25s,transform .3s var(--ease)}
+.svc:hover{border-color:rgba(55,224,246,.5);background:rgba(55,224,246,.05);transform:translateY(-4px)}
+.svc-num{position:absolute;right:14px;top:2px;font:800 74px/1 var(--fd);color:transparent;
+  -webkit-text-stroke:1px rgba(122,162,247,.22)}
+.svc-ico{width:48px;height:48px;display:grid;place-items:center;border-radius:12px;margin-bottom:20px;
+  background:rgba(55,224,246,.12);color:var(--cyan)}
+.svc-ico .ico{width:24px;height:24px}
+.svc h3{font:600 17.5px/1.3 var(--fd);color:#fff}
+.svc p{margin-top:9px;font-size:15px;color:var(--tx-dim)}
+.ask{margin-top:34px;display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap;
+  border:1px solid var(--line-dark);border-radius:20px;padding:30px 34px;
+  background:linear-gradient(100deg,rgba(255,204,46,.10),rgba(43,108,246,.10))}
+.ask h3{font:700 clamp(20px,2.4vw,26px)/1.25 var(--fd);color:#fff;max-width:24ch}
+.ask p{margin-top:8px;color:var(--tx-dim);font-size:16px}
+.ask .cta{display:flex;gap:12px;flex-wrap:wrap}
+
+/* ---------- about (sticky two-column) ---------- */
+.about-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:70px;align-items:start}
+.about-left{position:sticky;top:calc(var(--header-h) + 28px)}
+.about-photo{position:relative;margin-top:30px;border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
+.about-photo img{width:100%;height:auto;object-fit:cover}
+.about-badge{position:absolute;left:16px;bottom:16px;background:var(--yellow);color:#101828;border-radius:12px;
+  padding:12px 18px;font:700 12px var(--fm);letter-spacing:.18em;box-shadow:0 10px 26px rgba(6,17,32,.35)}
+.about-right p{font-size:17.5px;color:#3E4B62;max-width:60ch}
+.about-right p + p{margin-top:16px}
+.why{margin-top:34px;display:grid;gap:0;border-top:1px solid var(--line)}
+.why li{display:flex;gap:16px;padding:20px 0;border-bottom:1px solid var(--line)}
+.why .chk{width:26px;height:26px;flex:none;display:grid;place-items:center;border-radius:50%;
+  background:rgba(33,192,99,.14);color:#129A50;margin-top:2px}
+.why .chk .ico{width:14px;height:14px;stroke-width:2.6}
+.why strong{display:block;font-weight:700;font-size:16.5px}
+.why span{display:block;color:var(--muted);font-size:15.5px;margin-top:2px}
+.fact-strip{margin-top:34px;display:flex;flex-wrap:wrap;gap:10px}
+.fact-strip span{font:600 11px var(--fm);letter-spacing:.16em;text-transform:uppercase;
+  background:#fff;border:1px solid var(--line);border-radius:99px;padding:9px 15px;color:#3E4B62}
+
+/* ---------- gallery strip ---------- */
+.strip{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px 4px 26px;
+  scrollbar-width:thin;scrollbar-color:var(--cyan) transparent}
+.strip::-webkit-scrollbar{height:6px}
+.strip::-webkit-scrollbar-thumb{background:var(--cyan);border-radius:99px}
+.strip figure{flex:0 0 min(340px,80vw);scroll-snap-align:start;background:#fff;border:1px solid var(--line);
+  border-radius:18px;overflow:hidden;box-shadow:var(--shadow);transition:transform .4s var(--ease)}
+.strip figure:nth-child(odd){transform:rotate(-1.4deg)}
+.strip figure:nth-child(even){transform:rotate(1.2deg)}
+.strip figure:hover{transform:rotate(0) translateY(-6px)}
+.strip img{width:100%;height:230px;object-fit:cover}
+.strip figcaption{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;
+  font:600 11px var(--fm);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.strip figcaption b{color:var(--blue);font-weight:700}
+
+/* ---------- visit / contact ---------- */
+.visit-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:24px;align-items:start}
+.stack{display:grid;gap:20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.card .pad{padding:28px}
+.card h3{font:600 18px/1.3 var(--fd);display:flex;align-items:center;gap:11px}
+.card h3 .ico{width:20px;height:20px;color:var(--blue)}
+.card p,.card address{color:var(--muted);font-style:normal;font-size:16px}
+.addr{margin-top:12px;font-size:17.5px;color:var(--ink);line-height:1.55}
+.card .row-btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.hours-line{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+  margin-top:14px;padding:14px 16px;background:var(--paper);border-radius:12px}
+.hours-line b{font:600 17px var(--fd)}
+.openpill{display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:14.5px}
+.openpill.is-open{color:#129A50}
+.openpill.is-closed{color:#DC2626}
+/* people */
+.person-owner{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.avatar{width:62px;height:62px;flex:none;display:grid;place-items:center;border-radius:16px;
+  background:linear-gradient(150deg,var(--bg-dark-2),var(--panel));color:var(--yellow);
+  font:700 20px var(--fd);letter-spacing:.02em}
+.person-owner .who small{display:block;font:600 10.5px var(--fm);letter-spacing:.22em;color:var(--blue);text-transform:uppercase}
+.person-owner .who strong{display:block;font:700 21px/1.2 var(--fd);margin-top:3px}
+.person-owner .who .num{display:block;margin-top:4px;font-weight:700;font-size:18px;letter-spacing:.02em}
+.person-owner .row-btns{margin-left:auto}
+.staff{padding:6px 26px}
+.staff li{display:flex;align-items:center;gap:16px;padding:15px 0;border-top:1px solid var(--line)}
+.staff li:first-child{border-top:0}
+.staff .avatar{width:44px;height:44px;border-radius:12px;font-size:15px}
+.staff .who{margin-right:auto}
+.staff .who strong{display:block;font-weight:700;font-size:16px}
+.staff .who span{font:500 13px var(--fm);letter-spacing:.06em;color:var(--muted)}
+.icobtn{width:44px;height:44px;display:grid;place-items:center;border-radius:12px;cursor:pointer;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink);transition:all .2s}
+.icobtn .ico{width:19px;height:19px}
+.icobtn.call:hover{border-color:var(--blue);color:var(--blue)}
+.icobtn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.icobtn.wa:hover{background:#17A94F}
+/* form */
+.enquiry .pad{padding:30px}
+.enquiry > .pad > p{margin-top:6px;font-size:15.5px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
+.chips label{cursor:pointer}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips span{display:inline-block;padding:9px 16px;border:1.5px solid var(--line);border-radius:99px;
+  font-weight:600;font-size:14.5px;transition:all .2s}
+.chips label:hover span{border-color:var(--blue)}
+.chips input:checked + span{background:var(--blue);border-color:var(--blue);color:#fff}
+.chips input:focus-visible + span{outline:3px solid var(--cyan);outline-offset:2px}
+.field{display:block;margin-top:14px}
+.field em{display:block;font-style:normal;font-weight:700;font-size:13.5px;margin-bottom:6px}
+.field input,.field textarea{width:100%;padding:13px 15px;font:400 16px/1.5 var(--fb);color:var(--ink);
+  border:1.5px solid var(--line);border-radius:12px;background:#fff;transition:border-color .2s,box-shadow .2s}
+.field textarea{resize:vertical;min-height:96px}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(43,108,246,.15)}
+.form-note{margin-top:14px;font-size:14.5px;font-weight:600;display:none}
+.form-note.ok{display:block;color:#129A50}
+.form-note.err{display:block;color:#DC2626}
+/* map */
+.map-frame{margin-top:24px;border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);position:relative}
+.map-frame iframe{display:block;width:100%;height:420px;border:0}
+.map-tag{position:absolute;top:16px;left:16px;background:var(--bg-dark);color:var(--cyan);border-radius:10px;
+  padding:9px 14px;font:600 10.5px var(--fm);letter-spacing:.22em;pointer-events:none}
+
+/* ---------- FAQ ---------- */
+.faq{display:grid;gap:12px;max-width:860px}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:0 24px;transition:border-color .25s,box-shadow .25s}
+.faq details[open]{border-color:var(--blue);box-shadow:var(--shadow)}
+.faq summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:16px;padding:20px 0;
+  font:600 17px/1.35 var(--fd)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .pl{margin-left:auto;flex:none;width:30px;height:30px;display:grid;place-items:center;
+  border-radius:9px;background:var(--paper);color:var(--blue);transition:transform .35s var(--ease),background .25s,color .25s}
+.faq summary .pl .ico{width:15px;height:15px;stroke-width:2.4}
+.faq details[open] summary .pl{transform:rotate(45deg);background:var(--blue);color:#fff}
+.faq details p{padding:0 46px 22px 0;color:var(--muted);max-width:64ch}
+
+/* ---------- footer ---------- */
+.site-footer{background:var(--bg-dark);color:var(--tx-dim);padding:84px 0 0;position:relative;overflow:hidden}
+.foot-cta{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;flex-wrap:wrap;
+  padding-bottom:46px;border-bottom:1px solid var(--line-dark)}
+.foot-cta h2{font:700 clamp(30px,4.6vw,52px)/1.08 var(--fd);color:#fff;max-width:16ch}
+.foot-cta h2 span{color:var(--yellow)}
+.foot-cta .hi-line{margin-top:14px;font-size:17px;color:var(--tx-dim)}
+.footer-grid{display:grid;grid-template-columns:1.5fr .8fr 1fr;gap:44px;padding:50px 0}
+.f-brand{display:flex;gap:14px;align-items:flex-start}
+.f-brand .brand-txt strong{font-size:18px}
+.f-brand p{margin-top:12px;font-size:15.5px;max-width:36ch}
+.f-brand .hindi{margin-top:8px;color:var(--cyan);font-size:15px}
+.site-footer nav{display:grid;gap:10px;align-content:start}
+.site-footer h4{font:600 12px var(--fm);letter-spacing:.24em;text-transform:uppercase;color:var(--cyan);margin-bottom:6px}
+.site-footer nav a{font-size:15.5px;transition:color .2s,padding-left .25s var(--ease)}
+.site-footer nav a:hover{color:var(--yellow);padding-left:6px}
+.f-contact{display:grid;gap:9px;font-size:15.5px;align-content:start}
+.f-contact a:hover{color:var(--yellow)}
+.f-contact .mono{color:var(--tx-dim)}
+.footer-base{border-top:1px solid var(--line-dark);padding:20px 0 26px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  font:500 11px var(--fm);letter-spacing:.16em;text-transform:uppercase;color:rgba(214,228,246,.42)}
+
+/* ---------- quickbar ---------- */
+.quickbar{display:none}
+
+/* ---------- reveal / entrance ---------- */
+@media (prefers-reduced-motion: no-preference){
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s var(--ease),transform .8s var(--ease);
+    transition-delay:calc(var(--i,0)*90ms)}
+  .reveal.in{opacity:1;transform:none}
+  .hero-copy > *{opacity:0;transform:translateY(22px);animation:rise .9s var(--ease) forwards}
+  .hero-copy > *:nth-child(1){animation-delay:.05s}.hero-copy > *:nth-child(2){animation-delay:.12s}
+  .hero-copy > *:nth-child(3){animation-delay:.5s}.hero-copy > *:nth-child(4){animation-delay:.62s}
+  .hero-copy > *:nth-child(5){animation-delay:.74s}.hero-copy > *:nth-child(6){animation-delay:.86s}
+  .hero-copy > *:nth-child(7){animation-delay:.98s}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .hero-visual{animation:vin 1.1s .25s var(--ease) both}
+  @keyframes vin{from{opacity:0;transform:translateY(26px) scale(.975);clip-path:inset(0 0 100% 0 round 20px)}
+                 to{opacity:1;transform:none;clip-path:inset(0 0 0 0 round 20px)}}
+}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+
+/* ---------- responsive ---------- */
+@media (max-width:1020px){
+  .cats{grid-template-columns:repeat(2,1fr)}
+  .svcs{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .footer-grid > :first-child{grid-column:1/-1}
+}
+@media (max-width:920px){
+  .hero{padding:56px 0 80px}
+  .hero-grid{grid-template-columns:1fr;gap:48px}
+  .hero-visual{max-width:640px}
+  .about-grid{grid-template-columns:1fr;gap:44px}
+  .about-left{position:static}
+  .visit-grid{grid-template-columns:1fr}
+  .nav{display:none}
+  .menu-btn{display:grid}
+}
+@media (max-width:640px){
+  body{font-size:16.5px;padding-bottom:84px}
+  .section{padding:76px 0}
+  .container{width:min(1180px,100% - 36px)}
+  .hero-stats{grid-template-columns:repeat(2,1fr);border-top:0}
+  .hero-stats li{border:0;padding:14px 0 0}
+  .cats,.svcs{grid-template-columns:1fr}
+  .svc-num{font-size:56px}
+  .footer-grid{grid-template-columns:1fr;padding:40px 0}
+  .header-cta span{display:none}
+  .header-cta{width:46px;min-height:46px;padding:0}
+  .map-frame iframe{height:320px}
+  .person-owner .row-btns{margin-left:0}
+  .quickbar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;position:fixed;left:0;right:0;bottom:0;z-index:110;
+    padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(6,11,20,.96);
+    border-top:1px solid var(--line-dark);backdrop-filter:blur(10px)}
+  .quickbar .btn{min-height:50px;padding:0 8px;font-size:14.5px;border-radius:12px}
+}
+</style>
 </head>
 <body>
-  <div class="cursor-dot" id="cursorDot"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
 
-  <!-- ============ HEADER ============ -->
-  <header class="site-header" id="top">
-    <div class="container header-inner">
-      <a class="brand" href="#home">
-        <span class="brand-name">Poonam Electronics</span>
-      </a>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
 
-      <!-- Navigation with PES button pointing to https://poonam-electronics.web.app/[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span) -->
-      <nav class="nav" id="nav" aria-label="Main Navigation">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#contact">Contact</a>
-        <a class="pes-nav-btn" href="https://poonam-electronics.web.app/" target="_blank" rel="noopener">PES</a>
-      </nav>
+<!-- ======= icon sprite ======= -->
+<svg class="sprite" aria-hidden="true" style="position:absolute;width:0;height:0">
+  <defs>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4.5 13.5H11L9.8 22 19 10h-6.5L13 2Z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h4l1.8 4.6-2.3 1.7a13 13 0 0 0 6.2 6.2l1.7-2.3L21 15v4a2 2 0 0 1-2.2 2C10.6 20.4 3.6 13.4 3 5.2A2 2 0 0 1 5 3Z"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.5V12l3 2"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-ch-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14.5 5.5-6.5 6.5 6.5 6.5"/></symbol>
+    <symbol id="i-ch-r" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-mobile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></symbol>
+    <symbol id="i-tv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="12.5" rx="2"/><path d="M8.5 21h7"/></symbol>
+    <symbol id="i-fridge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 9.5h12M9 5.8v1.6M9 12.5v3"/></symbol>
+    <symbol id="i-washer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><circle cx="12" cy="13" r="4.4"/><path d="M8.8 13c1-.9 2.2-.9 3.2 0s2.2.9 3.2 0M7 6h.01M10 6h.01"/></symbol>
+    <symbol id="i-snow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v19M3.8 7.25l16.4 9.5M20.2 7.25l-16.4 9.5M12 2.5 9.8 4.7M12 2.5l2.2 2.2M12 21.5l-2.2-2.2M12 21.5l2.2-2.2"/></symbol>
+    <symbol id="i-fan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.1"/><path d="M12 9.9c0-3.6-1.4-5.9-3.4-5.9-1.7 0-2.4 1.9-1 3.8 1 1.3 2.8 2.1 4.4 2.1Zm2.1 1.1c3.1-1.9 5.8-2 6.8-.3.8 1.5-.6 3-3 3.1-1.6.1-3.4-.9-4.6-2.3M9.9 14.1c-3.1 1.9-4.4 4.3-3.1 5.8 1.1 1.3 3 .7 3.7-1.5.5-1.6.2-3.2-.6-4.3Z"/></symbol>
+    <symbol id="i-micro" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M16.5 5.5v13M19 9h.01M19 12h.01M6 9.5h6v5H6z"/></symbol>
+    <symbol id="i-speak" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><circle cx="12" cy="14.5" r="3.4"/><circle cx="12" cy="7" r="1.4"/></symbol>
+    <symbol id="i-cctv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 7.5 15 4l1.5 4.5L5 12 3.5 7.5ZM16.5 8.5 20.5 7l.8 2.4-4 1.5M7.5 11.5v3A3.5 3.5 0 0 0 11 18h2.5"/><path d="M13.5 18v3"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5h11.5v10H2.5zM14 10h4l3 3v3.5h-7"/><circle cx="6.5" cy="17.8" r="1.9"/><circle cx="17.3" cy="17.8" r="1.9"/></symbol>
+    <symbol id="i-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 6.5a4 4 0 0 1 4.7-4l-2.7 2.7 2.3 2.3 2.7-2.7a4 4 0 0 1-4.7 4.7L8 18.3a2 2 0 0 1-2.8-2.8l8.8-8.8Z"/></symbol>
+    <symbol id="i-swap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13l-3-3M20 16H7l3 3"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 9.5h19M6.5 14.5h4"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8 4.5 5.6v6c0 4.6 3.2 8 7.5 9.6 4.3-1.6 7.5-5 7.5-9.6v-6L12 2.8Z"/><path d="m8.8 11.8 2.3 2.3 4.2-4.2"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 21l2-5.4A8.5 8.5 0 1 1 21 11.5Z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2.5 10.8 13.2M21.5 2.5 14.5 21.5l-3.7-8.3L2.5 9.5l19-7Z"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="8.8"/><path d="M12 11v5M12 7.8h.01"/></symbol>
+  </defs>
+</svg>
 
-      <div class="header-actions">
-        <a class="btn btn-primary btn-sm" id="waHeaderBtn" target="_blank" rel="noopener">WhatsApp</a>
-        <button class="menu-btn" id="menuBtn" type="button" aria-label="Toggle navigation menu">☰</button>
+<!-- ======= notice (holiday) bar ======= -->
+<div class="notice" id="noticeBar" hidden>
+  <div class="container notice-inner">
+    <svg class="ico"><use href="#i-info"/></svg>
+    <p id="noticeMsg"></p>
+  </div>
+</div>
+
+<!-- ======= mono status strip ======= -->
+<div class="topline">
+  <div class="container topline-inner">
+    <span class="mono"><span class="loc" id="topGeo">22.1266° N · 83.1208° E</span> &nbsp;·&nbsp; Chhal, Raigarh, Chhattisgarh</span>
+    <span class="mono"><span id="liveClock">--:--:--</span> IST &nbsp;·&nbsp; <span data-open-label>checking…</span></span>
+  </div>
+</div>
+
+<!-- ======= header ======= -->
+<header class="site-header" id="siteHeader">
+  <div class="container header-inner">
+    <a class="brand" href="#top" aria-label="Poonam Electronics — home">
+      <span class="brand-mark"><svg class="ico"><use href="#i-bolt"/></svg></span>
+      <span class="brand-txt"><strong id="brandName">POONAM</strong><span>ELECTRONICS</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#products">Products</a>
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#visit">Visit</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-call btn-sm header-cta js-owner-call" href="tel:">
+      <svg class="ico"><use href="#i-phone"/></svg><span data-owner-phone>Call</span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mnav" aria-label="Menu">
+      <svg class="ico i-m"><use href="#i-menu"/></svg>
+      <svg class="ico i-x"><use href="#i-x"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- mobile menu -->
+<div class="mnav" id="mnav">
+  <a href="#products"><small>01</small>Products</a>
+  <a href="#services"><small>02</small>Services</a>
+  <a href="#about"><small>03</small>About</a>
+  <a href="#gallery"><small>04</small>Gallery</a>
+  <a href="#visit"><small>05</small>Visit us</a>
+  <a href="#faq"><small>06</small>FAQ</a>
+  <div class="mnav-cta">
+    <a class="btn btn-call js-owner-call" href="tel:"><svg class="ico"><use href="#i-phone"/></svg>Call now</a>
+    <a class="btn btn-wa js-owner-wa" href="#" target="_blank" rel="noopener"><svg class="ico"><use href="#i-wa"/></svg>WhatsApp</a>
+  </div>
+</div>
+
+<main id="main">
+
+<!-- ======================= HERO ======================= -->
+<section class="hero" id="top">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow" id="eyebrow">Electronics · Chhal, Raigarh</p>
+      <h1>
+        <span class="l1" data-scramble data-text="Everything electric.">Everything electric.</span>
+        <span class="l2" data-scramble data-text="One trusted shop.">One trusted shop.</span>
+      </h1>
+      <p class="hi">पूनम इलेक्ट्रॉनिक्स — छाल, रायगढ़ <b>(छत्तीसगढ़)</b></p>
+      <p class="lead" id="leadText">Mobiles, LED TVs, refrigerators, washing machines, ACs, kitchen appliances and more — genuine brands, honest prices and doorstep service, trusted by local families for over 15 years.</p>
+      <div class="cta-row">
+        <a class="btn btn-call js-owner-call" href="tel:"><svg class="ico"><use href="#i-phone"/></svg><span data-owner-phone>Call now</span></a>
+        <a class="btn btn-wa js-owner-wa" href="#" target="_blank" rel="noopener"><svg class="ico"><use href="#i-wa"/></svg>WhatsApp us</a>
+        <a class="btn btn-ghost js-directions" href="#" target="_blank" rel="noopener"><svg class="ico"><use href="#i-pin"/></svg>Directions</a>
+      </div>
+      <p class="cta-note"><svg class="ico"><use href="#i-clock"/></svg><span data-hours-text>Open 9:00 AM – 7:30 PM · All 7 days</span></p>
+      <ul class="hero-stats" id="heroStats"></ul>
+    </div>
+
+    <div class="hero-visual" id="heroVisual">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <p class="cam-tag"><i></i> SHOWROOM LIVE</p>
+      <p class="slide-count" id="slideCount">01 / 04</p>
+      <div class="slides" id="slides"></div>
+      <button class="slider-btn prev" id="prevBtn" aria-label="Previous photo"><svg class="ico"><use href="#i-ch-l"/></svg></button>
+      <button class="slider-btn next" id="nextBtn" aria-label="Next photo"><svg class="ico"><use href="#i-ch-r"/></svg></button>
+      <div class="dots" id="dots"></div>
+      <div class="hero-status" data-open-pill>
+        <span class="dot"></span>
+        <span><b data-open-label>Checking…</b> <small data-open-sub></small></span>
       </div>
     </div>
-  </header>
+  </div>
+</section>
 
-  <main id="main">
-    <!-- ============ HERO WITH WEBGL SHADER ============ -->
-    <section class="hero" id="home">
-      <div id="webglCanvas"></div>
+<!-- ======================= LED TICKER ======================= -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
 
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <h1 class="reveal-text">Electronics, furniture and plumbing, <span class="glow-highlight">all in one shop</span> in Chhal, Raigarh.</h1>
-          <p class="lead reveal-text">Poonam Electronics is a trusted retail shop in Chhal, Raigarh. Walk in, tell us what you need, and our team will help you find the right fit.</p>
-          <div class="cta-row reveal-text">
-            <a class="btn btn-primary" href="#contact">Visit us</a>
-            <a class="btn btn-ghost" href="#contact">Contact us</a>
-          </div>
-          <p class="hero-note reveal-text">📍 Chhal, Raigarh, Chhattisgarh 496665</p>
-        </div>
+<!-- ======================= PRODUCTS ======================= -->
+<section class="section" id="products">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="idx">01 — Products</span>
+      <h2 class="sec-title">Everything your home runs on.</h2>
+      <p class="sec-sub">From the phone in your hand to the AC in your bedroom — walk in and compare real models side by side, with honest advice on what fits your budget.</p>
+    </div>
+    <div class="cats">
+      <article class="cat reveal" style="--i:0"><div class="cat-top"><span class="cat-ico"><svg class="ico"><use href="#i-mobile"/></svg></span><span class="idx">C-01</span></div><h3>Mobiles & Accessories</h3><p>Smartphones, chargers, covers, earphones — latest models with brand warranty.</p><p class="tag-line">Latest models in stock</p></article>
+      <article class="cat reveal" style="--i:1"><div class="cat-top"><span class="cat-ico"><svg class="ico"><use href="#i-tv"/></svg></span><span class="idx">C-02</span></div><h3>LED TV & Home Theatre</h3><p>HD to 4K smart TVs, soundbars and home theatres for every budget.</p><p class="tag-line">32″ to 65″ & more</p></article>
+      <article class="cat reveal" style="--i:2"><div class="cat-top"><span class="cat-ico"><svg class="ico"><use href="#i-fridge"/></svg></span><span class="idx">C-03</span></div><h3>Fridges & Washers</h3><p>Single-door to double-door refrigerators; top-load and front-load washing machines.</p><p class="tag-line">All popular sizes</p></article>
+      <article class="cat reveal" style="--i:3"><div class="cat-top"><span class="cat-ico"><svg class="ico"><use href="#i-snow"/></svg></span><span class="idx">C-04</span></div><h3>AC, Coolers & Heaters</h3><p>Split and window ACs, air coolers and room heaters — season-ready stock.</p><p class="tag-line">Fitting available</p></article>
+      <article class="cat reveal" style="--i:4"><div class="cat-top"><span class="cat-ico"><svg class="ico"><use href="#i-fan"/></svg></span><span class="idx">C-05</span></div><h3>Fans & Lighting</h3><p>Ceiling, table and exhaust fans; LED bulbs, tube lights and decorative lighting.</p><p class="tag-line">Energy-saving LEDs</p></article>
+      <article class="cat reveal" style="--i:5"><div class="cat-top"><span class="cat-ico"><svg class="ico"><use href="#i-micro"/></svg></span><span class="idx">C-06</span></div><h3>Kitchen Appliances</h3><p>Mixer-grinders, induction cooktops, kettles, OTGs, rice cookers and more.</p><p class="tag-line">Daily-use essentials</p></article>
+      <article class="cat reveal" style="--i:6"><div class="cat-top"><span class="cat-ico"><svg class="ico"><use href="#i-speak"/></svg></span><span class="idx">C-07</span></div><h3>Speakers & Audio</h3><p>Bluetooth speakers, party speakers, headphones and audio systems.</p><p class="tag-line">Demo in store</p></article>
+      <article class="cat reveal" style="--i:7"><div class="cat-top"><span class="cat-ico"><svg class="ico"><use href="#i-cctv"/></svg></span><span class="idx">C-08</span></div><h3>CCTV & Security</h3><p>Cameras and DVR kits for homes and shops — supply plus installation support.</p><p class="tag-line">Home & shop kits</p></article>
+    </div>
+  </div>
+</section>
 
-        <div class="hero-visual reveal-text tilt-card" style="min-height:320px; background:#0B1220; border-radius:24px; display:flex; align-items:center; justify-content:center; color:#fff; padding:30px; box-shadow:0 20px 40px rgba(0,0,0,0.3);">
-          <div style="text-align:center;">
-            <h3 style="color:var(--neon-cyan); font-size:24px; margin-bottom:10px;">Poonam Electronics</h3>
-            <p style="color:#94A3B8; font-size:15px;">Chhal's Premier Retail Destination</p>
-            <div id="statusBadge" style="margin-top:20px; display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.08); padding:8px 16px; border-radius:99px; font-size:14px;">
-              <span class="dot" id="statusDot"></span>
-              <span id="statusText">Open today: 9:00 AM - 7:30 PM</span>
+<!-- ======================= SERVICES ======================= -->
+<section class="section dark" id="services">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="idx">02 — Services</span>
+      <h2 class="sec-title">We don't just sell. We set it up, fix it, and stand by it.</h2>
+      <p class="sec-sub">Buying an appliance is only the first step. Delivery, installation, exchange, after-sales — that's where a local shop earns its name.</p>
+    </div>
+    <div class="svcs">
+      <article class="svc reveal" style="--i:0"><span class="svc-num">01</span><span class="svc-ico"><svg class="ico"><use href="#i-truck"/></svg></span><h3>Free local delivery</h3><p>Doorstep delivery of big appliances across Chhal & nearby Raigarh areas.</p></article>
+      <article class="svc reveal" style="--i:1"><span class="svc-num">02</span><span class="svc-ico"><svg class="ico"><use href="#i-wrench"/></svg></span><h3>Professional installation</h3><p>AC fitting, TV wall-mounting and appliance setup done by our own team.</p></article>
+      <article class="svc reveal" style="--i:2"><span class="svc-num">03</span><span class="svc-ico"><svg class="ico"><use href="#i-shield"/></svg></span><h3>After-sales support</h3><p>Warranty help and service guidance after purchase — call us, we pick up.</p></article>
+      <article class="svc reveal" style="--i:3"><span class="svc-num">04</span><span class="svc-ico"><svg class="ico"><use href="#i-swap"/></svg></span><h3>Exchange offers</h3><p>Trade in your old TV, fridge or washing machine for value on the new one.</p></article>
+      <article class="svc reveal" style="--i:4"><span class="svc-num">05</span><span class="svc-ico"><svg class="ico"><use href="#i-card"/></svg></span><h3>EMI & easy payments</h3><p>Flexible EMI options on select products. UPI, cards or cash — your choice.</p></article>
+      <article class="svc reveal" style="--i:5"><span class="svc-num">06</span><span class="svc-ico"><svg class="ico"><use href="#i-chat"/></svg></span><h3>Honest guidance</h3><p>Tell us your budget and need — we'll suggest what genuinely fits, nothing extra.</p></article>
+    </div>
+    <div class="ask reveal">
+      <div>
+        <h3>Not sure what to buy?</h3>
+        <p>One call and we'll walk you through options, prices and offers — no pressure.</p>
+      </div>
+      <div class="cta">
+        <a class="btn btn-call js-owner-call" href="tel:"><svg class="ico"><use href="#i-phone"/></svg><span data-owner-phone>Call now</span></a>
+        <a class="btn btn-ghost js-owner-wa" href="#" target="_blank" rel="noopener"><svg class="ico"><use href="#i-wa"/></svg>WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= ABOUT (sticky) ======================= -->
+<section class="section" id="about">
+  <div class="container about-grid">
+    <div class="about-left reveal">
+      <span class="idx">03 — Our story</span>
+      <h2 class="sec-title" style="margin-top:16px">Trusted by Chhal for <span id="aboutYearsInline">15+</span> years.</h2>
+      <div class="about-photo">
+        <img src="https://picsum.photos/seed/poonam-storefront/760/560" alt="Poonam Electronics storefront in Chhal" loading="lazy">
+        <span class="about-badge" id="aboutBadge">15+ YEARS OF TRUST</span>
+      </div>
+    </div>
+    <div class="about-right">
+      <p class="reveal">Poonam Electronics started as a small shop in Chhal with one simple promise — <strong>sell genuine products and answer the phone after the sale.</strong> That promise is why families who bought their first TV from us now send their children for their first smartphone.</p>
+      <p class="reveal">Today we stock everything electric — mobiles, TVs, cooling, kitchen and audio — from leading national brands, with proper bills and full brand warranty on every item.</p>
+      <ul class="why">
+        <li class="reveal" style="--i:0"><span class="chk"><svg class="ico"><use href="#i-check"/></svg></span><div><strong>100% genuine products</strong><span>Sealed boxes, GST bill and official brand warranty on everything.</span></div></li>
+        <li class="reveal" style="--i:1"><span class="chk"><svg class="ico"><use href="#i-check"/></svg></span><div><strong>Real after-sales support</strong><span>A service issue is our issue. Call the shop — real people, real answers.</span></div></li>
+        <li class="reveal" style="--i:2"><span class="chk"><svg class="ico"><use href="#i-check"/></svg></span><div><strong>Doorstep delivery & installation</strong><span>Big appliances delivered and set up at your home, done properly.</span></div></li>
+        <li class="reveal" style="--i:3"><span class="chk"><svg class="ico"><use href="#i-check"/></svg></span><div><strong>Exchange & EMI to ease upgrades</strong><span>Fair value for your old appliance and easy payment plans on new ones.</span></div></li>
+      </ul>
+      <div class="fact-strip reveal">
+        <span id="factOwner">Owner · Satendra Jaiswal</span>
+        <span>Chhal, Raigarh (C.G.)</span>
+        <span data-hours-short>9:00 AM – 7:30 PM</span>
+        <span>Open all 7 days</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= GALLERY ======================= -->
+<section class="section" id="gallery" style="padding-top:0">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="idx">04 — Inside the shop</span>
+      <h2 class="sec-title">Take a quick walk through the showroom.</h2>
+      <p class="sec-sub">Swipe through — and come see everything live. Stock changes weekly with new arrivals.</p>
+    </div>
+  </div>
+  <div class="container">
+    <div class="strip" id="galleryStrip" tabindex="0" aria-label="Shop photos, scroll horizontally"></div>
+  </div>
+</section>
+
+<!-- ======================= VISIT ======================= -->
+<section class="section" id="visit" style="background:#EDF1F8">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="idx">05 — Visit us</span>
+      <h2 class="sec-title">Come in, or just call — we're easy to reach.</h2>
+      <p class="sec-sub">Find us in Chhal market. Can't make it? Call or send an enquiry and we'll call you right back.</p>
+    </div>
+
+    <div class="visit-grid">
+      <div class="stack">
+        <!-- address -->
+        <div class="card reveal">
+          <div class="pad">
+            <h3><svg class="ico"><use href="#i-pin"/></svg>Store address</h3>
+            <address class="addr" id="addrBlock">Chhal, Raigarh<br>Chhattisgarh 496665</address>
+            <div class="row-btns">
+              <a class="btn btn-blue btn-sm js-directions" href="#" target="_blank" rel="noopener"><svg class="ico"><use href="#i-pin"/></svg>Get directions</a>
+              <a class="btn btn-line btn-sm js-owner-call" href="tel:"><svg class="ico"><use href="#i-phone"/></svg>Ask for help</a>
             </div>
           </div>
         </div>
+        <!-- hours -->
+        <div class="card reveal" style="--i:1">
+          <div class="pad">
+            <h3><svg class="ico"><use href="#i-clock"/></svg>Opening hours</h3>
+            <div class="hours-line">
+              <b data-hours-text>9:00 AM – 7:30 PM</b>
+              <span class="openpill" data-open-pill><span class="dot"></span><span data-open-label>Checking…</span></span>
+            </div>
+            <p style="margin-top:12px;font-size:15px">Open <strong>every day</strong> of the week — including Sundays.</p>
+          </div>
+        </div>
+        <!-- people -->
+        <div class="card reveal" style="--i:2">
+          <div class="pad person-owner">
+            <span class="avatar" id="ownerAv">SJ</span>
+            <div class="who">
+              <small>Owner</small>
+              <strong id="ownerName">Satendra Jaiswal</strong>
+              <span class="num" id="ownerNum">—</span>
+            </div>
+            <div class="row-btns">
+              <a class="icobtn call js-owner-call" href="tel:" aria-label="Call owner"><svg class="ico"><use href="#i-phone"/></svg></a>
+              <a class="icobtn wa js-owner-wa" href="#" target="_blank" rel="noopener" aria-label="WhatsApp owner"><svg class="ico"><use href="#i-wa"/></svg></a>
+            </div>
+          </div>
+          <ul class="staff" id="staffList"></ul>
+        </div>
       </div>
 
-      <div class="container">
-        <ul class="categories">
-          <li class="tilt-card">
-            <div class="cat-icon">⚡</div>
-            <h2>Electronics</h2>
-            <p>Everyday electrical and electronic needs for your home and work.</p>
-          </li>
-          <li class="tilt-card">
-            <div class="cat-icon">🛋️</div>
-            <h2>Furniture</h2>
-            <p>Practical furniture for homes, offices and shops.</p>
-          </li>
-          <li class="tilt-card">
-            <div class="cat-icon">🔧</div>
-            <h2>Plumbing</h2>
-            <p>Plumbing materials for new fittings and repairs.</p>
-          </li>
-        </ul>
+      <!-- enquiry form -->
+      <div class="card enquiry reveal" style="--i:1">
+        <form class="pad" id="enquiryForm" novalidate>
+          <h3><svg class="ico"><use href="#i-send"/></svg>Send an enquiry</h3>
+          <p>Tell us what you need — we'll call you back with prices and availability.</p>
+          <div class="chips" role="radiogroup" aria-label="Enquiry type">
+            <label><input type="radio" name="topic" value="Product price" checked><span>Product price</span></label>
+            <label><input type="radio" name="topic" value="Repair / service"><span>Repair / service</span></label>
+            <label><input type="radio" name="topic" value="Delivery"><span>Delivery</span></label>
+            <label><input type="radio" name="topic" value="Exchange / EMI"><span>Exchange / EMI</span></label>
+            <label><input type="radio" name="topic" value="Other"><span>Other</span></label>
+          </div>
+          <label class="field"><em>Your name</em><input name="name" required autocomplete="name" placeholder="e.g. Ramesh Sahu"></label>
+          <label class="field"><em>Phone number</em><input name="phone" required type="tel" inputmode="numeric" autocomplete="tel" placeholder="10-digit mobile number"></label>
+          <label class="field"><em>Message</em><textarea name="message" placeholder="e.g. Price of a 43-inch smart TV with exchange…"></textarea></label>
+          <button class="btn btn-blue" type="submit" id="formBtn" style="width:100%;margin-top:20px">
+            <svg class="ico"><use href="#i-send"/></svg>Send enquiry
+          </button>
+          <p class="form-note" id="formNote" role="status"></p>
+        </form>
       </div>
-    </section>
+    </div>
 
-    <!-- ============ ABOUT ============ -->
-    <section class="section" id="about">
-      <div class="container about-grid">
+    <!-- map -->
+    <div class="map-frame reveal">
+      <span class="map-tag">22.1266° N · 83.1208° E</span>
+      <iframe id="mapFrame" title="Poonam Electronics on Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= FAQ ======================= -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="idx">06 — FAQ</span>
+      <h2 class="sec-title">Questions people ask us every day.</h2>
+    </div>
+    <div class="faq">
+      <details class="reveal" style="--i:0"><summary>What are your store timings?<span class="pl"><svg class="ico"><use href="#i-plus"/></svg></span></summary><p>We're open 9:00 AM to 7:30 PM, all 7 days of the week — Sundays included. There's no weekly off.</p></details>
+      <details class="reveal" style="--i:1"><summary>Do you deliver outside Chhal?<span class="pl"><svg class="ico"><use href="#i-plus"/></svg></span></summary><p>Yes — we deliver across Chhal and nearby areas of Raigarh district. Call us with your village or locality and we'll confirm delivery for big appliances.</p></details>
+      <details class="reveal" style="--i:2"><summary>Can I buy on EMI?<span class="pl"><svg class="ico"><use href="#i-plus"/></svg></span></summary><p>EMI options are available on select products. Ask us in-store or on the phone — we'll explain the plans, tenure and documents needed in simple terms.</p></details>
+      <details class="reveal" style="--i:3"><summary>Do you take old appliances in exchange?<span class="pl"><svg class="ico"><use href="#i-plus"/></svg></span></summary><p>Yes. TVs, refrigerators, washing machines and more can be exchanged depending on condition. Bring photos on WhatsApp or visit the shop for a quick valuation.</p></details>
+      <details class="reveal" style="--i:4"><summary>Will you help with installation and repairs?<span class="pl"><svg class="ico"><use href="#i-plus"/></svg></span></summary><p>Absolutely — our team handles installation (AC fitting, TV mounting, etc.) and we guide you through warranty service and repairs after purchase.</p></details>
+      <details class="reveal" style="--i:5"><summary>Are the products genuine with warranty?<span class="pl"><svg class="ico"><use href="#i-plus"/></svg></span></summary><p>Every product we sell is genuine, sealed, billed with GST, and covered by the brand's official warranty. That's a promise we've kept for over 15 years.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ======================= FOOTER ======================= -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="foot-cta reveal">
+      <div>
+        <h2>Visit us today.<br>Open till <span>7:30 PM</span>.</h2>
+        <p class="hi-line">बिजली से जुड़ा हर सामान — एक ही भरोसेमंद दुकान। पूनम इलेक्ट्रॉनिक्स, छाल।</p>
+      </div>
+      <div class="cta" style="display:flex;gap:12px;flex-wrap:wrap">
+        <a class="btn btn-call js-owner-call" href="tel:"><svg class="ico"><use href="#i-phone"/></svg><span data-owner-phone>Call now</span></a>
+        <a class="btn btn-ghost js-directions" href="#" target="_blank" rel="noopener"><svg class="ico"><use href="#i-pin"/></svg>Directions</a>
+      </div>
+    </div>
+
+    <div class="footer-grid">
+      <div class="f-brand">
+        <span class="brand-mark"><svg class="ico"><use href="#i-bolt"/></svg></span>
         <div>
-          <h2 class="section-title reveal-text">A local electronics, furniture and plumbing shop in Chhal, Raigarh</h2>
-          <p class="body-lg reveal-text">Poonam Electronics serves households, shopkeepers, and builders across Chhal. Having multiple product lines under one roof means you save time and effort on every project.</p>
-          <p class="body-lg reveal-text" lang="hi">पूनम इलेक्ट्रॉनिक्स, छाल, रायगढ़ (छत्तीसगढ़): इलेक्ट्रॉनिक्स, फर्नीचर और प्लंबिंग का सामान एक ही दुकान पर।</p>
+          <div class="brand-txt"><strong>POONAM ELECTRONICS</strong></div>
+          <p id="footerAddr">Chhal, Raigarh, Chhattisgarh 496665</p>
+          <p class="hindi">आपका भरोसा ही हमारी पहचान है।</p>
         </div>
-        <div class="why reveal-text">
-          <h3>Why customers choose us</h3>
-          <ul>
-            <li><span>✓ Three needs under one convenient roof</span></li>
-            <li><span>✓ Honest guidance tailored to your project</span></li>
-            <li><span>✓ Direct contact numbers for quick availability checks</span></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ SERVICES ============ -->
-    <section class="section section-gray" id="services">
-      <div class="container">
-        <div class="section-head">
-          <h2 class="section-title">Our Retail Offerings</h2>
-          <p class="body-lg">Quality goods verified for daily durability and performance.</p>
-        </div>
-        <ul class="services">
-          <li class="tilt-card"><h3>Electronics Retail</h3><p>Wiring, switches, lighting, and home appliances over the counter.</p></li>
-          <li class="tilt-card"><h3>Furniture Selection</h3><p>Beds, tables, chairs, and cabinets for residential and commercial spaces.</p></li>
-          <li class="tilt-card"><h3>Plumbing Supplies</h3><p>PVC pipes, taps, connectors, and complete repair solutions.</p></li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- ============ CONTACT ============ -->
-    <section class="section" id="contact">
-      <div class="container">
-        <div class="section-head">
-          <h2 class="section-title">Visit or Contact Us</h2>
-          <p class="body-lg">Reach out via phone or drop by our showroom in Chhal.</p>
-        </div>
-        <div class="contact-grid">
-          <div class="info-card">
-            <div class="info-row">
-              <div>
-                <h3>Shop Address</h3>
-                <p>Poonam Electronics, Chhal, Raigarh, Chhattisgarh 496665</p>
-                <p>Phone: <a href="tel:+919340329716" style="color:var(--blue); font-weight:600;">+91 93403 29716</a></p>
-                <div style="margin-top:16px;">
-                  <a class="btn btn-primary" id="waContactBtn" target="_blank" rel="noopener">Chat on WhatsApp</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="map-wrap" style="border-radius:24px; overflow:hidden; border:1px solid var(--line); min-height:360px;">
-            <iframe title="Map location" loading="lazy" src="https://maps.google.com/maps?q=22.126558,83.1208&z=17&output=embed" style="width:100%; height:100%; min-height:360px; border:0;"></iframe>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <strong>Poonam Electronics</strong>
-        <p>Electronics, furniture and plumbing in Chhal, Raigarh.</p>
       </div>
       <div>
-        <p>Open Everyday: 9:00 AM - 7:30 PM</p>
-        <p>Phone: +91 93403 29716</p>
+        <h4>Menu</h4>
+        <nav aria-label="Footer">
+          <a href="#products">Products</a><a href="#services">Services</a><a href="#about">About</a>
+          <a href="#gallery">Gallery</a><a href="#visit">Visit us</a><a href="#faq">FAQ</a>
+        </nav>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <div class="f-contact">
+          <a class="js-owner-call" href="tel:"><span class="mono">Tel — </span><span data-owner-phone>—</span></a>
+          <a class="js-owner-wa" href="#" target="_blank" rel="noopener"><span class="mono">WA — </span>Message us on WhatsApp</a>
+          <span><span class="mono">Hrs — </span><span data-hours-text>9:00 AM – 7:30 PM</span></span>
+          <a class="js-directions" href="#" target="_blank" rel="noopener"><span class="mono">Map — </span>Open in Google Maps</a>
+        </div>
       </div>
     </div>
-  </footer>
 
-  <script src="config.js"></script>
-  <script src="script.js"></script>
+    <div class="footer-base">
+      <span>© <span id="footYear">2026</span> Poonam Electronics · Chhal · Raigarh · C.G. 496665</span>
+      <span>Powered by trust since <span id="sinceYear">2010</span></span>
+    </div>
+  </div>
+</footer>
+
+<!-- mobile quick actions -->
+<div class="quickbar">
+  <a class="btn btn-call js-owner-call" href="tel:"><svg class="ico"><use href="#i-phone"/></svg>Call</a>
+  <a class="btn btn-wa js-owner-wa" href="#" target="_blank" rel="noopener"><svg class="ico"><use href="#i-wa"/></svg>WhatsApp</a>
+  <a class="btn btn-ghost js-directions" href="#" target="_blank" rel="noopener"><svg class="ico"><use href="#i-pin"/></svg>Map</a>
+</div>
+
+<script>
+(function(){
+"use strict";
+var RM = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- 1. Normalise config (tolerates trailing spaces in keys/values) ---------- */
+function normalize(o){
+  if(Array.isArray(o)) return o.map(normalize);
+  if(o && typeof o === "object"){
+    var out = {};
+    for(var k in o){
+      if(!Object.prototype.hasOwnProperty.call(o,k)) continue;
+      var v = normalize(o[k]);
+      if(typeof v === "string"){ v = v.trim(); if(/^https?:/i.test(v)) v = v.replace(/\s+/g,""); }
+      out[k.replace(/\s+$/,"")] = v;
+    }
+    return out;
+  }
+  return o;
+}
+var DEFAULTS = {
+  name:"Poonam Electronics", hours:{open:"09:00",close:"19:30",days:"Every day"},
+  owner:{name:"Owner",phone:""}, staff:[], gallery:[], whatsappMessage:"Hi.",
+  yearsInBusiness:"15+", mapsLink:"#", mapEmbed:"", address:{line:"Chhal, Raigarh",region:"Chhattisgarh",pin:"496665"},
+  coords:{lat:22.126558,lng:83.1208}, holiday:{enabled:false}
+};
+var SITE = normalize(window.SITE || {});
+function g(path,fb){ var p=path.split("."),v=SITE; for(var i=0;i<p.length;i++){ if(v==null) return fb; v=v[p[i]]; } return (v==null||v==="") ? fb : v; }
+
+var $  = function(s,c){ return (c||document).querySelector(s); };
+var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); };
+var OWNER_PHONE = String(g("owner.phone","")).replace(/\D/g,"");
+var telHref = function(p){ return "tel:+91" + p; };
+var waHref  = function(p,msg){ return "https://wa.me/91" + p + "?text=" + encodeURIComponent(msg || g("whatsappMessage","Hi.")); };
+function fmtTime(t){
+  var p=String(t).split(":"), h=+p[0]||0, m=+p[1]||0, ap=h>=12?"PM":"AM", hh=((h+11)%12)+1;
+  return hh + ":" + String(m).padStart(2,"0") + " " + ap;
+}
+var OPEN_T=g("hours.open","09:00"), CLOSE_T=g("hours.close","19:30");
+var YEARS = String(g("yearsInBusiness","15+")).replace(/\D/g,"") || "15";
+
+/* ---------- 2. Fill config-driven content ---------- */
+document.title = g("name","Poonam Electronics") + " — Chhal, Raigarh | TVs, Mobiles, Appliances";
+$("#brandName").textContent = String(g("name","POONAM")).toUpperCase().replace("ELECTRONICS","").trim() || "POONAM";
+$("#eyebrow").textContent = "Electronics · " + g("address.line","Chhal, Raigarh");
+$("#leadText").textContent = "Mobiles, LED TVs, refrigerators, washing machines, ACs, kitchen appliances and more — genuine brands, honest prices and doorstep service, trusted by local families for over " + YEARS + " years.";
+var hoursText = fmtTime(OPEN_T) + " – " + fmtTime(CLOSE_T);
+$$("[data-hours-text]").forEach(function(el){ el.textContent = "Open " + hoursText + " · " + g("hours.days","Every day"); });
+$$("[data-hours-short]").forEach(function(el){ el.textContent = hoursText; });
+$$("[data-owner-phone]").forEach(function(el){ el.textContent = OWNER_PHONE ? OWNER_PHONE.slice(0,5) + " " + OWNER_PHONE.slice(5) : "Call"; });
+$$(".js-owner-call").forEach(function(a){ a.href = telHref(OWNER_PHONE); });
+$$(".js-owner-wa").forEach(function(a){ a.href = waHref(OWNER_PHONE); a.setAttribute("target","_blank"); });
+$$(".js-directions").forEach(function(a){ a.href = g("mapsLink","#"); a.setAttribute("target","_blank"); });
+$("#addrBlock").innerHTML = g("address.line","Chhal, Raigarh") + "<br>" + g("address.region","Chhattisgarh") + " " + g("address.pin","");
+$("#footerAddr").textContent = g("address.line","Chhal, Raigarh") + ", " + g("address.region","") + " " + g("address.pin","");
+$("#topGeo").textContent = (+g("coords.lat",22.126558)).toFixed(4) + "° N · " + (+g("coords.lng",83.1208)).toFixed(4) + "° E";
+if(g("mapEmbed","")) $("#mapFrame").src = g("mapEmbed","");
+$("#ownerName").textContent = g("owner.name","Owner");
+$("#ownerNum").textContent = OWNER_PHONE.slice(0,5) + " " + OWNER_PHONE.slice(5);
+$("#ownerAv").textContent = String(g("owner.name","PE")).split(/\s+/).map(function(w){return w[0]||"";}).join("").slice(0,2).toUpperCase();
+$("#factOwner").textContent = "Owner · " + g("owner.name","");
+$("#aboutYearsInline").textContent = YEARS + "+";
+$("#aboutBadge").textContent = YEARS + "+ YEARS OF TRUST";
+$("#sinceYear").textContent = (new Date().getFullYear() - parseInt(YEARS,10)) || 2010;
+$("#footYear").textContent = new Date().getFullYear();
+
+/* staff list */
+var staffUL = $("#staffList");
+(g("staff",[])||[]).forEach(function(p){
+  var ph = String(p.phone||"").replace(/\D/g,""); if(!ph) return;
+  var li = document.createElement("li");
+  li.innerHTML =
+    '<span class="avatar">'+String(p.name||"S").split(/\s+/).map(function(w){return w[0]||"";}).join("").slice(0,2).toUpperCase()+'</span>'+
+    '<div class="who"><strong>'+p.name+'</strong><span>'+ph.slice(0,5)+' '+ph.slice(5)+'</span></div>'+
+    '<a class="icobtn call" href="'+telHref(ph)+'" aria-label="Call '+p.name+'"><svg class="ico"><use href="#i-phone"/></svg></a>'+
+    '<a class="icobtn wa" href="'+waHref(ph)+'" target="_blank" rel="noopener" aria-label="WhatsApp '+p.name+'"><svg class="ico"><use href="#i-wa"/></svg></a>';
+  staffUL.appendChild(li);
+});
+
+/* notice / holiday */
+if(g("holiday.enabled",false) && g("holiday.message","")){
+  $("#noticeMsg").textContent = g("holiday.message","") + (g("holiday.until","") ? " (till " + g("holiday.until","") + ")" : "");
+  $("#noticeBar").hidden = false;
+}
+
+/* hero stats from config */
+var statsUL = $("#heroStats");
+[ [YEARS+"+","Years of trust",true],
+  ["7","Days open a week",false],
+  [String((g("staff",[])||[]).length + 1),"People to help you",false],
+  ["9–7:30","Store hours",false]
+].forEach(function(s){
+  var li=document.createElement("li");
+  li.innerHTML = "<strong>"+s[0].replace(/\+$/,"")+(s[0].slice(-1)==="+"?"<em>+</em>":"")+"</strong><span>"+s[1]+"</span>";
+  statsUL.appendChild(li);
+});
+
+/* ticker */
+var tickItems = ["MOBILES","LED TV","REFRIGERATORS","WASHING MACHINES","AC & COOLERS","FANS & LIGHTS","KITCHEN APPLIANCES","SPEAKERS","CCTV","ACCESSORIES","EXCHANGE OFFERS","EMI AVAILABLE"];
+var track = $("#tickerTrack"), chunk = "<span>" + tickItems.join("</span><span>") + "</span>";
+track.innerHTML = chunk + chunk; /* duplicated for seamless loop */
+
+/* ---------- 3. Live clock + open/closed status ---------- */
+function openState(){
+  if(g("holiday.enabled",false) && g("holiday.closeShop",false)) return {open:false};
+  var now=new Date(), t=now.getHours()*60+now.getMinutes();
+  var o=+OPEN_T.split(":")[0]*60+(+OPEN_T.split(":")[1]||0);
+  var c=+CLOSE_T.split(":")[0]*60+(+CLOSE_T.split(":")[1]||0);
+  return {open: t>=o && t<c};
+}
+function refreshStatus(){
+  var st = openState();
+  $$("[data-open-pill]").forEach(function(pill){
+    pill.classList.toggle("is-open", st.open);
+    pill.classList.toggle("is-closed", !st.open);
+  });
+  $$("[data-open-label]").forEach(function(el){
+    el.textContent = st.open ? "Open now" : "Closed now";
+  });
+  $$("[data-open-sub]").forEach(function(el){
+    el.textContent = st.open ? "· closes " + fmtTime(CLOSE_T) : "· opens " + fmtTime(OPEN_T);
+  });
+}
+function tickClock(){
+  var el=$("#liveClock"); if(!el) return;
+  el.textContent = new Date().toLocaleTimeString("en-IN",{hour12:false});
+}
+refreshStatus(); tickClock();
+setInterval(tickClock,1000); setInterval(refreshStatus,60000);
+
+/* ---------- 4. Hero slider ---------- */
+var FALLBACK_SEEDS=["electronics-showroom-tv","home-appliance-store","mobile-gadgets-shop","kitchen-appliance-display"];
+var imgs = (g("gallery",[])||[]).filter(function(x){return x && x.src;}).map(function(x){return {src:x.src,alt:x.alt||g("name","")+" showroom"};});
+FALLBACK_SEEDS.forEach(function(s){ imgs.push({src:"https://picsum.photos/seed/"+s+"/1100/880", alt:g("name","")+" showroom"}); });
+imgs = imgs.slice(0,4);
+var slidesWrap=$("#slides"), dotsWrap=$("#dots"), cur=0, timer=null;
+imgs.forEach(function(it,i){
+  var fig=document.createElement("figure"); fig.className="slide"+(i===0?" is-active":"");
+  var im=new Image(); im.alt=it.alt; im.src=it.src;
+  im.onerror=function(){ im.onerror=null; im.src="https://picsum.photos/seed/poonam-slide-"+i+"/1100/880"; };
+  fig.appendChild(im); slidesWrap.appendChild(fig);
+  var b=document.createElement("button"); b.setAttribute("aria-label","Go to photo "+(i+1));
+  if(i===0) b.setAttribute("aria-current","true");
+  b.addEventListener("click",function(){ go(i,true); });
+  dotsWrap.appendChild(b);
+});
+function pad(n){ return String(n).padStart(2,"0"); }
+function go(i,user){
+  var n=imgs.length; cur=((i%n)+n)%n;
+  slidesWrap.style.transform="translateX(-"+(cur*100)+"%)";
+  $$(".slide",slidesWrap).forEach(function(s,idx){ s.classList.toggle("is-active",idx===cur); });
+  $$("button",dotsWrap).forEach(function(d,idx){ if(idx===cur) d.setAttribute("aria-current","true"); else d.removeAttribute("aria-current"); });
+  $("#slideCount").textContent = pad(cur+1)+" / "+pad(n);
+  if(user) restartAuto();
+}
+function restartAuto(){ if(RM || imgs.length<2) return; clearInterval(timer); timer=setInterval(function(){ go(cur+1); },5000); }
+$("#prevBtn").addEventListener("click",function(){ go(cur-1,true); });
+$("#nextBtn").addEventListener("click",function(){ go(cur+1,true); });
+$("#heroVisual").addEventListener("mouseenter",function(){ clearInterval(timer); });
+$("#heroVisual").addEventListener("mouseleave",restartAuto);
+var sx=null;
+$("#heroVisual").addEventListener("pointerdown",function(e){ sx=e.clientX; });
+$("#heroVisual").addEventListener("pointerup",function(e){
+  if(sx==null) return; var dx=e.clientX-sx; sx=null;
+  if(Math.abs(dx)>45) go(cur+(dx<0?1:-1),true);
+});
+restartAuto();
+
+/* gallery strip */
+var strip=$("#galleryStrip");
+[ ["poonam-tv-wall","TV WALL"],["poonam-mobile-corner","MOBILES"],["poonam-appliance-row","APPLIANCES"],
+  ["poonam-kitchen-corner","KITCHEN"],["poonam-audio-speakers","AUDIO"],["poonam-cctv-kits","CCTV"]
+].forEach(function(item,i){
+  var f=document.createElement("figure");
+  f.innerHTML='<img src="https://picsum.photos/seed/'+item[0]+'/680/460" alt="'+item[1]+' — Poonam Electronics" loading="lazy">'+
+    '<figcaption><span>'+item[1]+'</span><b>0'+(i+1)+'</b></figcaption>';
+  strip.appendChild(f);
+});
+
+/* ---------- 5. Scramble-decode headline ---------- */
+function scramble(el,delay){
+  var text=el.getAttribute("data-text")||el.textContent;
+  if(RM){ el.textContent=text; return; }
+  var glyphs="▚▞#%/\\<>*+=";
+  el.style.visibility="visible"; el.textContent="";
+  var start=null, dur=950;
+  function frame(now){
+    if(start===null) start=now+delay;
+    var t=(now-start)/dur;
+    if(t<0){ requestAnimationFrame(frame); return; }
+    var reveal=Math.floor(Math.min(t,1)*text.length), out=text.slice(0,reveal);
+    for(var j=reveal;j<text.length;j++) out += text[j]===" " ? " " : glyphs[(Math.random()*glyphs.length)|0];
+    el.textContent=out;
+    if(t<1) requestAnimationFrame(frame); else el.textContent=text;
+  }
+  requestAnimationFrame(frame);
+}
+$$("[data-scramble]").forEach(function(el,i){ scramble(el, i*380 + 150); });
+
+/* ---------- 6. Reveals ---------- */
+if("IntersectionObserver" in window && !RM){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+  },{threshold:.14});
+  $$(".reveal").forEach(function(el){ io.observe(el); });
+}else{
+  $$(".reveal").forEach(function(el){ el.classList.add("in"); });
+}
+
+/* ---------- 7. Header, progress, nav spy, mobile menu ---------- */
+var header=$("#siteHeader"), bar=$("#progressBar");
+function onScroll(){
+  var y=window.scrollY, h=document.documentElement.scrollHeight-window.innerHeight;
+  header.classList.toggle("scrolled", y>10);
+  bar.style.transform="scaleX("+(h>0?y/h:0)+")";
+}
+window.addEventListener("scroll",onScroll,{passive:true}); onScroll();
+
+if("IntersectionObserver" in window){
+  var spy=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      $$(".nav a").forEach(function(a){ a.classList.toggle("active", a.getAttribute("href")==="#"+e.target.id); });
+    });
+  },{rootMargin:"-40% 0px -55% 0px"});
+  ["products","services","about","gallery","visit","faq"].forEach(function(id){ var s=document.getElementById(id); if(s) spy.observe(s); });
+}
+
+var menuBtn=$("#menuBtn"), mnav=$("#mnav");
+menuBtn.addEventListener("click",function(){
+  var open=mnav.classList.toggle("open");
+  menuBtn.setAttribute("aria-expanded",open);
+  document.body.style.overflow=open?"hidden":"";
+});
+$$("a",mnav).forEach(function(a){ a.addEventListener("click",function(){ mnav.classList.remove("open"); menuBtn.setAttribute("aria-expanded","false"); document.body.style.overflow=""; }); });
+
+/* ---------- 8. Enquiry form → Apps Script ---------- */
+var form=$("#enquiryForm"), btn=$("#formBtn"), note=$("#formNote");
+form.addEventListener("submit",function(e){
+  e.preventDefault();
+  if(!form.checkValidity()){ form.reportValidity(); return; }
+  var url=g("appsScriptUrl","");
+  btn.disabled=true; btn.innerHTML='<svg class="ico"><use href="#i-send"/></svg>Sending…';
+  note.className="form-note";
+  var fd=new FormData(form); fd.append("time", new Date().toLocaleString("en-IN"));
+  var done=function(ok){
+    btn.disabled=false; btn.innerHTML='<svg class="ico"><use href="#i-send"/></svg>Send enquiry';
+    note.classList.add(ok?"ok":"err");
+    note.textContent = ok ? "✓ Enquiry sent! We'll call you back shortly." : "Couldn't send — please call us directly on " + OWNER_PHONE + ".";
+    if(ok) form.reset();
+  };
+  if(url){
+    fetch(url,{method:"POST",mode:"no-cors",body:fd}).then(function(){ done(true); }).catch(function(){ done(false); });
+  } else done(false);
+});
+
+/* ---------- 9. SEO: JSON-LD ---------- */
+try{
+  var ld={"@context":"https://schema.org","@type":"ElectronicsStore",
+    name:g("name","Poonam Electronics"), telephone:"+91"+OWNER_PHONE,
+    url:g("mapsLink",""), image:"https://picsum.photos/seed/poonam-storefront/760/560",
+    address:{"@type":"PostalAddress",streetAddress:g("address.line","Chhal"),addressLocality:"Chhal",
+      addressRegion:g("address.region","Chhattisgarh"),postalCode:g("address.pin","496665"),addressCountry:"IN"},
+    geo:{"@type":"GeoCoordinates",latitude:+g("coords.lat",22.126558),longitude:+g("coords.lng",83.1208)},
+    openingHoursSpecification:[{"@type":"OpeningHoursSpecification",dayOfWeek:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],opens:OPEN_T,closes:CLOSE_T}]};
+  var s=document.createElement("script"); s.type="application/ld+json"; s.textContent=JSON.stringify(ld);
+  document.head.appendChild(s);
+}catch(err){}
+})();
+</script>
 </body>
 </html>
